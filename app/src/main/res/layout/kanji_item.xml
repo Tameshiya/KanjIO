@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    <TextView
+            android:id="@+id/kanji"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/round_background"
+            android:gravity="center"
+            android:textSize="38sp"
+            tools:text="鬱" />
+
+    <TextView
+            android:id="@+id/onyomi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/kanji"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            tools:text="オンヨミ1, オンヨミ2"/>
+
+    <TextView
+            android:id="@+id/kunyomi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_alignBottom="@id/kanji"
+            android:layout_toEndOf="@id/kanji"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@id/onyomi"
+            tools:text="くんよみ１,くんよみ2"/>
+
+</RelativeLayout>

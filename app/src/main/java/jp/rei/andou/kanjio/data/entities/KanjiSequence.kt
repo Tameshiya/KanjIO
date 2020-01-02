@@ -1,57 +1,95 @@
 package jp.rei.andou.kanjio.data.entities
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "kanji_sequence", indices = [
-    Index(value = ["freg_sequence", "heisig_revised_sequence", "heisig_sequence"], unique = true)
-])
-class KanjiSequence {
-
+@Entity(
+    tableName = "kanji_sequence",
+    indices = [
+        Index(
+            value = [
+                "freq_sequence",
+                "heisig_revised_sequence",
+                "heisig_sequence",
+                "jlpt_revised_sequence",
+                "jlpt_sequence",
+                "jouyou_revised_sequence",
+                "jouyou_sequence",
+                "kanken_sequence",
+                "kic_sequence",
+                "kklc_sequence"
+            ],
+            unique = true
+        )
+    ]
+)
+@Parcelize
+data class KanjiSequence(
     @PrimaryKey
     @ColumnInfo(name = "code")
-    var code = 0
+    val code: Int,
+
     @ColumnInfo(name = "freq_level", index = true)
-    var freqLevel = 0
+    val freqLevel: Int,
+
     @ColumnInfo(name = "freq_sequence")
-    var freqSequence = 0
+    val freqSequence: Int,
+
     @ColumnInfo(name = "heisig_level", index = true)
-    var heisigLevel = 0
+    val heisigLevel: Int,
+
     @ColumnInfo(name = "heisig_revised_level", index = true)
-    var heisigRevisedLevel = 0
+    val heisigRevisedLevel: Int,
+
     @ColumnInfo(name = "heisig_revised_sequence")
-    var heisigRevisedSequence = 0
+    val heisigRevisedSequence: Int,
+
     @ColumnInfo(name = "heisig_sequence")
-    var heisigSequence = 0
+    val heisigSequence: Int,
+
     @ColumnInfo(name = "jlpt_level", index = true)
-    var jlptLevel = 0
+    val jlptLevel: Int,
+
     @ColumnInfo(name = "jlpt_revised_level", index = true)
-    var jlptRevisedLevel = 0
-    @ColumnInfo(name = "jlpt_revised_sequence", uniqueIndex = true) //todo
-    var jlptRevisedSequence = 0
-    @ColumnInfo(name = "jlpt_sequence", uniqueIndex = true)
-    var jlptSequence = 0
+    val jlptRevisedLevel: Int,
+
+    @ColumnInfo(name = "jlpt_revised_sequence")
+    val jlptRevisedSequence: Int,
+
+    @ColumnInfo(name = "jlpt_sequence")
+    val jlptSequence: Int,
+
     @ColumnInfo(name = "jouyou_level", index = true)
-    var jouyouLevel = 0
+    val jouyouLevel: Int,
+
     @ColumnInfo(name = "jouyou_revised_level", index = true)
-    var jouyouRevisedLevel = 0
-    @ColumnInfo(name = "jouyou_revised_sequence", uniqueIndex = true)
-    var jouyouRevisedSequence = 0
-    @ColumnInfo(name = "jouyou_sequence", uniqueIndex = true)
-    var jouyouSequence = 0
+    val jouyouRevisedLevel: Int,
+
+    @ColumnInfo(name = "jouyou_revised_sequence")
+    val jouyouRevisedSequence: Int,
+
+    @ColumnInfo(name = "jouyou_sequence")
+    val jouyouSequence: Int,
+
     @ColumnInfo(name = "kanken_level", index = true)
-    var kankenLevel = 0
-    @ColumnInfo(name = "kanken_sequence", uniqueIndex = true)
-    var kankenSequence = 0
+    val kankenLevel: Int,
+
+    @ColumnInfo(name = "kanken_sequence")
+    val kankenSequence: Int,
+
     @ColumnInfo(name = "kic_level", index = true)
-    var kicLevel = 0
-    @ColumnInfo(name = "kic_sequence", uniqueIndex = true)
-    var kicSequence = 0
+    val kicLevel: Int,
+
+    @ColumnInfo(name = "kic_sequence")
+    val kicSequence: Int,
+
     @ColumnInfo(name = "kklc_level", index = true)
-    var kklcLevel = 0
-    @ColumnInfo(name = "kklc_sequence", uniqueIndex = true)
-    var kklcSequence = 0
-    
-}
+    val kklcLevel: Int,
+
+    @ColumnInfo(name = "kklc_sequence")
+    val kklcSequence: Int
+) : Parcelable

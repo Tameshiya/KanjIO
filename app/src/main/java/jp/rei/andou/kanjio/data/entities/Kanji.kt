@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = "kanji", primaryKeys = ["code"])
-class Kanji(
+@Entity(tableName = "kanji")
+data class Kanji(
 
     @PrimaryKey
     @ColumnInfo(name = "code", index = true)
