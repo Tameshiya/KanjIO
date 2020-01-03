@@ -8,6 +8,7 @@ import android.graphics.Path
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import jp.rei.andou.kanjio.data.repositories.KanjiRepository
 import jp.rei.andou.kanjio.presentation.KanjiListWidget
 import jp.rei.andou.kanjio.presentation.KanjiPresenter
@@ -26,6 +27,8 @@ class KanjiListActivity : AppCompatActivity() {
 
         (application as App).applicationComponent.inject(this)
 
+        kanji_list.layoutManager = LinearLayoutManager(this)
+        kanji_list.setHasFixedSize(true)
         KanjiPresenter(KanjiListWidget(kanji_list), kanjiRepository)
 
         /*setContentView(

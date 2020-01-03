@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.R
 import jp.rei.andou.kanjio.data.entities.Kanji
@@ -36,8 +37,8 @@ class KanjiAdapter(private val list: List<Kanji>) : RecyclerView.Adapter<KanjiVi
 
     override fun onBindViewHolder(holder: KanjiViewHolder, position: Int) {
         with(list[position]) {
-            val kanji = "/u${code}"
-            holder.kanji.text = kanji
+            val kanji = "&#$code;" //todo move formatting to repo
+            holder.kanji.text = HtmlCompat.fromHtml(kanji, HtmlCompat.FROM_HTML_MODE_LEGACY)
             holder.onyomi.text = onReading
             holder.kunyomi.text = kunReading
         }
