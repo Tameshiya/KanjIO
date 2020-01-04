@@ -1,4 +1,4 @@
-package jp.rei.andou.kanjio.di
+package jp.rei.andou.kanjio.di.modules
 
 import android.content.Context
 import android.util.Log

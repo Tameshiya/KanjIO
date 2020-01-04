@@ -13,7 +13,7 @@
             android:background="@drawable/round_background"
             android:gravity="center"
             android:textSize="38sp"
-            tools:text="鬱" />
+            tools:text="総" />
 
     <TextView
             android:id="@+id/onyomi"

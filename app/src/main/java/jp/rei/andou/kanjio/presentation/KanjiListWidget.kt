@@ -4,16 +4,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.R
 import jp.rei.andou.kanjio.data.entities.Kanji
+import jp.rei.andou.kanjio.data.model.KanjiGroup
 import kotlinx.android.synthetic.main.kanji_item.view.*
 
-class KanjiListWidget(private val recylerView: RecyclerView) {
+class KanjiListWidget(
+    private val toolbar: Toolbar,
+    private val recylerView: RecyclerView
+) {
 
     fun showList(list: List<Kanji>) {
         recylerView.adapter = KanjiAdapter(list)
+    }
+
+    fun setTitle(currentKanjiGroup: KanjiGroup) {
+        toolbar.title = currentKanjiGroup.title
     }
 
 }

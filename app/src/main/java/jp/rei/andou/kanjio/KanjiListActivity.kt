@@ -6,20 +6,28 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.os.Bundle
-import android.view.View
+import android.view.*
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import jp.rei.andou.kanjio.data.repositories.KanjiRepository
+import androidx.recyclerview.widget.RecyclerView
+import jp.rei.andou.kanjio.data.model.KanjiGroup
+import jp.rei.andou.kanjio.domain.KanjiInteractor
 import jp.rei.andou.kanjio.presentation.KanjiListWidget
 import jp.rei.andou.kanjio.presentation.KanjiPresenter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_list.view.*
+import kotlinx.android.synthetic.main.dialog_list_item.view.*
 import javax.inject.Inject
 
 
 class KanjiListActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var kanjiRepository: KanjiRepository
+    lateinit var kanjiInteractor: KanjiInteractor
+
+    private lateinit var kanjiPresenter: KanjiPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +35,12 @@ class KanjiListActivity : AppCompatActivity() {
 
         (application as App).applicationComponent.inject(this)
 
+        setSupportActionBar(toolbar)
         kanji_list.layoutManager = LinearLayoutManager(this)
         kanji_list.setHasFixedSize(true)
-        KanjiPresenter(KanjiListWidget(kanji_list), kanjiRepository)
+        kanjiPresenter = KanjiPresenter(KanjiListWidget(toolbar, kanji_list), kanjiInteractor)
 
-        /*setContentView(
+        /* todo
             KanjiView(
                 this,
                 parsePathsDatas(
@@ -41,7 +50,64 @@ class KanjiListActivity : AppCompatActivity() {
         )*/
     }
 
-    /*private fun parsePathsDatas(pathDatas: String): Path {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.kanji_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.groups -> {
+                //todo fix window leaking
+                //todo rewrite dialogs to mvp approach
+                showGroupsDialog()
+            }
+
+            R.id.levels -> {
+                //showLevelsDialog()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showGroupsDialog() {
+        val dialogListView: View = layoutInflater.inflate(R.layout.dialog_list, null)
+        val groups: RecyclerView = dialogListView.list
+        groups.layoutManager = LinearLayoutManager(this)
+        val dialog = AlertDialog.Builder(this).setView(dialogListView).create()
+        groups.adapter = KanjiGroupsAdapter {
+            kanjiPresenter.setNewKanjiGroup(it)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    class ListDialogViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+        val title: TextView = item.title
+    }
+
+    class KanjiGroupsAdapter(private val onGroupClickListener: (KanjiGroup) -> Unit) : RecyclerView.Adapter<ListDialogViewHolder>() {
+
+        private val groups: Array<KanjiGroup> = KanjiGroup.values()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListDialogViewHolder {
+            return ListDialogViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.dialog_list_item, parent, false)
+            )
+        }
+
+        override fun getItemCount(): Int = groups.size
+
+        override fun onBindViewHolder(holder: ListDialogViewHolder, position: Int) {
+            holder.title.text = groups[position].title
+            holder.itemView.setOnClickListener{
+                onGroupClickListener(groups[position])
+            }
+        }
+
+    }
+
+    /*todo private fun parsePathsDatas(pathDatas: String): Path {
         val newPath = Path()
         pathDatas.split("|").map {PathParser.createPathFromPathData(it)}.forEach(newPath::addPath)
         return newPath
