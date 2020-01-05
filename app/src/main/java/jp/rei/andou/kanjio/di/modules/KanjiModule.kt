@@ -2,9 +2,8 @@ package jp.rei.andou.kanjio.di.modules
 
 import dagger.Module
 import dagger.Provides
-import jp.rei.andou.kanjio.data.dao.KanjiDao
+import jp.rei.andou.kanjio.data.KanjiDaoFactory
 import jp.rei.andou.kanjio.data.model.KanjiGroup
-import jp.rei.andou.kanjio.data.model.toRepository
 import jp.rei.andou.kanjio.data.repositories.kanji.KanjiRepository
 import jp.rei.andou.kanjio.domain.KanjiInteractor
 
@@ -12,13 +11,16 @@ import jp.rei.andou.kanjio.domain.KanjiInteractor
 class KanjiModule {
 
     @Provides
-    fun provideKanjiRepository(kanjiGroup: KanjiGroup, kanjiDao: KanjiDao): KanjiRepository {
-        return kanjiGroup.toRepository(kanjiDao)
+    fun provideKanjiRepository(kanjiGroup: KanjiGroup, kanjiDaoFactory: KanjiDaoFactory): KanjiRepository {
+        return KanjiRepository(kanjiGroup, kanjiDaoFactory.createKanjiDaoFor(kanjiGroup))
     }
 
     @Provides
-    fun provideKanjiInteractor(kanjiGroup: KanjiGroup, kanjiRepository: KanjiRepository, kanjiDao: KanjiDao/*todo incapsulate*/): KanjiInteractor {
-        return KanjiInteractor(kanjiRepository, kanjiDao)
+    fun provideKanjiInteractor(
+        kanjiRepository: KanjiRepository,
+        kanjiDaoFactory: KanjiDaoFactory
+    ): KanjiInteractor {
+        return KanjiInteractor(kanjiRepository, kanjiDaoFactory)
     }
 
 }

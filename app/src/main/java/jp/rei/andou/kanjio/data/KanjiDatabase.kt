@@ -2,7 +2,7 @@ package jp.rei.andou.kanjio.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import jp.rei.andou.kanjio.data.dao.KanjiDao
+import jp.rei.andou.kanjio.data.dao.*
 import jp.rei.andou.kanjio.data.entities.Kanji
 import jp.rei.andou.kanjio.data.entities.KanjiSequence
 
@@ -13,5 +13,25 @@ abstract class KanjiDatabase : RoomDatabase() {
         const val DATABASE_NAME = "kanji_db"
     }
 
-    abstract fun getKanjiDao(): KanjiDao
+    abstract fun getFreqKanjiDao(): FreqKanjiDao
+
+    abstract fun getHeisigKanjiDao(): HeisigKanjiDao
+
+    abstract fun getRevisedHeisigDao(): RevisedHeisigKanjiDao
+
+    abstract fun getJlptKanjiDao(): JLPTKanjiDao
+
+    abstract fun getRevisedJlptKanjiDao(): RevisedJLPTKanjiDao
+
+    abstract fun getJouyouKanjiDao(): JouyouKanjiDao
+
+    abstract fun getRevisedJouyouKanjiDao(): RevisedJouyouKanjiDao
+
+    abstract fun getKicKanjiDao(): KicKanjiDao
+
+    abstract fun getKklcKanjiDao(): KklcKanjiDao
+
+    abstract fun getKankenKanjiDao(): KankenKanjiDao
+
+
 }

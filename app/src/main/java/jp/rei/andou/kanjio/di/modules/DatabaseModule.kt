@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
+import jp.rei.andou.kanjio.data.KanjiDaoFactory
 import jp.rei.andou.kanjio.data.KanjiDatabase
-import jp.rei.andou.kanjio.data.dao.KanjiDao
 import java.io.DataInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -76,7 +76,7 @@ class DatabaseModule(context: Context) {
 
     @Provides
     @Singleton
-    fun provideKanjiDao(): KanjiDao {
-        return database.getKanjiDao()
+    fun provideDaoFactory(database: KanjiDatabase): KanjiDaoFactory {
+        return KanjiDaoFactory(database)
     }
 }

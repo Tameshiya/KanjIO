@@ -58,16 +58,35 @@ class KanjiListActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.groups -> {
-                //todo fix window leaking
                 //todo rewrite dialogs to mvp approach
                 showGroupsDialog()
             }
 
             R.id.levels -> {
-                //showLevelsDialog()
+                showLevelsDialog()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showLevelsDialog() {
+        kanjiPresenter.getKanjiGroupLevels().subscribe { maxLevel ->
+            val dialogListView: View = layoutInflater.inflate(R.layout.dialog_list, null)
+            val levels: RecyclerView = dialogListView.list
+            levels.layoutManager = LinearLayoutManager(this)
+            val dialog = AlertDialog.Builder(this).setView(dialogListView).create()
+            val kanjiGroupLevels = (1 until maxLevel + 1).map { it.toString() }
+            levels.adapter = KanjiFilterAdapter(
+                content = kanjiGroupLevels,
+                titleRenderer = {position -> kanjiGroupLevels[position] },
+                onGroupClickListener = {
+                    kanjiPresenter.changeNewKanjiGroupLevel(it.toInt())
+                    dialog.dismiss()
+                }
+            )
+            //todo fix window leaking
+            dialog.show()
+        }
     }
 
     private fun showGroupsDialog() {
@@ -75,10 +94,15 @@ class KanjiListActivity : AppCompatActivity() {
         val groups: RecyclerView = dialogListView.list
         groups.layoutManager = LinearLayoutManager(this)
         val dialog = AlertDialog.Builder(this).setView(dialogListView).create()
-        groups.adapter = KanjiGroupsAdapter {
+        val kanjiGroups = KanjiGroup.values().toList()
+        groups.adapter = KanjiFilterAdapter(
+            content = kanjiGroups,
+            titleRenderer = {position ->  kanjiGroups[position].title},
+            onGroupClickListener = {
             kanjiPresenter.setNewKanjiGroup(it)
             dialog.dismiss()
-        }
+        })
+        //todo fix window leaking
         dialog.show()
     }
 
@@ -86,9 +110,11 @@ class KanjiListActivity : AppCompatActivity() {
         val title: TextView = item.title
     }
 
-    class KanjiGroupsAdapter(private val onGroupClickListener: (KanjiGroup) -> Unit) : RecyclerView.Adapter<ListDialogViewHolder>() {
-
-        private val groups: Array<KanjiGroup> = KanjiGroup.values()
+    class KanjiFilterAdapter<T>(
+        private val content: List<T>,
+        private val titleRenderer: (position: Int) -> String,
+        private val onGroupClickListener: (T) -> Unit
+    ) : RecyclerView.Adapter<ListDialogViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListDialogViewHolder {
             return ListDialogViewHolder(
@@ -96,12 +122,12 @@ class KanjiListActivity : AppCompatActivity() {
             )
         }
 
-        override fun getItemCount(): Int = groups.size
+        override fun getItemCount(): Int = content.size
 
         override fun onBindViewHolder(holder: ListDialogViewHolder, position: Int) {
-            holder.title.text = groups[position].title
-            holder.itemView.setOnClickListener{
-                onGroupClickListener(groups[position])
+            holder.title.text = titleRenderer(position)
+            holder.itemView.setOnClickListener {
+                onGroupClickListener(content[position])
             }
         }
 
