@@ -8,9 +8,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.R
-import jp.rei.andou.kanjio.data.entities.Kanji
-import jp.rei.andou.kanjio.data.model.KanjiGroup
 import kotlinx.android.synthetic.main.kanji_item.view.*
+import model.Kanji
+import model.KanjiGroup
 
 class KanjiListWidget(
     private val toolbar: Toolbar,

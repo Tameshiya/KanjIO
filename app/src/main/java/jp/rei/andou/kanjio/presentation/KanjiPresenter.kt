@@ -1,12 +1,7 @@
 package jp.rei.andou.kanjio.presentation
 
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import jp.rei.andou.kanjio.data.model.KanjiGroup
 import jp.rei.andou.kanjio.domain.KanjiInteractor
+import model.KanjiGroup
 
 /*todo
     1) 漢字検索 (漢字、音読み、くんよみ　入力）
@@ -17,42 +12,21 @@ class KanjiPresenter(
     private val interactor: KanjiInteractor
 ) {
 
-    //todo clean
-    private val compositeDisposable = CompositeDisposable()
-
     init {
-        interactor.getCurrentKanjiGroupLevel()
-            .subscribe { level ->
-                renderKanjiList(interactor.getCurrentKanjiGroup(), level)
-            }
-            .composeDisposable()
-    }
-
-    private fun Disposable.composeDisposable() {
-        compositeDisposable.addAll(this)
+        renderKanjiList(interactor.getCurrentKanjiGroup(), interactor.getCurrentKanjiGroupLevel())
     }
 
     fun setNewKanjiGroup(kanjiGroup: KanjiGroup) {
         interactor.changeKanjiGroup(kanjiGroup)
-        interactor.getCurrentKanjiGroupLevel()
-            .subscribe { level ->
-                renderKanjiList(kanjiGroup, level)
-            }
-            .composeDisposable()
+        renderKanjiList(kanjiGroup, interactor.getCurrentKanjiGroupLevel())
     }
 
     private fun renderKanjiList(kanjiGroup: KanjiGroup? = null, level: Int) {
         widget.setTitle(kanjiGroup ?: interactor.getCurrentKanjiGroup())
-        interactor.getKanjiListByLevel(level)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
-                widget.showList(list)
-            }
-            .composeDisposable()
+        widget.showList(interactor.getKanjiListByLevel(level))
     }
 
-    fun getKanjiGroupLevels(): Single<Int> {
+    fun getKanjiGroupLevels(): Int {
         return interactor.getCurrentKanjiGroupLevel()
     }
 
