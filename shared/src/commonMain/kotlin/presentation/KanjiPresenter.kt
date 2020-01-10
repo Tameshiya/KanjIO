@@ -1,6 +1,6 @@
-package jp.rei.andou.kanjio.presentation
+package presentation
 
-import jp.rei.andou.kanjio.domain.KanjiInteractor
+import domain.KanjiInteractor
 import model.KanjiGroup
 
 /*todo
@@ -8,12 +8,21 @@ import model.KanjiGroup
    3）特別なマークを読み込む。漢字の英語訳を出力。
  */
 class KanjiPresenter(
-    private val widget: KanjiListWidget,
     private val interactor: KanjiInteractor
 ) {
 
+    private var kanjiListView: KanjiListView? = null
+
     init {
         renderKanjiList(interactor.getCurrentKanjiGroup(), interactor.getCurrentKanjiGroupLevel())
+    }
+
+    fun setView(kanjiListView: KanjiListView) {
+        this.kanjiListView = kanjiListView
+    }
+
+    fun releaseView() {
+        this.kanjiListView = null
     }
 
     fun setNewKanjiGroup(kanjiGroup: KanjiGroup) {
@@ -22,8 +31,8 @@ class KanjiPresenter(
     }
 
     private fun renderKanjiList(kanjiGroup: KanjiGroup? = null, level: Int) {
-        widget.setTitle(kanjiGroup ?: interactor.getCurrentKanjiGroup())
-        widget.showList(interactor.getKanjiListByLevel(level))
+        kanjiListView?.setTitle(kanjiGroup ?: interactor.getCurrentKanjiGroup())
+        kanjiListView?.showList(interactor.getKanjiListByLevel(level))
     }
 
     fun getKanjiGroupLevels(): Int {

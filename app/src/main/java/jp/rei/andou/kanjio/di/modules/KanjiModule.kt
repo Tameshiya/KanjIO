@@ -2,9 +2,10 @@ package jp.rei.andou.kanjio.di.modules
 
 import dagger.Module
 import dagger.Provides
+import domain.KanjiInteractor
 import jp.rei.andou.kanjio.data.KanjiDaoFactory
 import jp.rei.andou.kanjio.data.repositories.RoomKanjiRepository
-import jp.rei.andou.kanjio.domain.KanjiInteractor
+import jp.rei.andou.kanjio.domain.KanjiInteractorImpl
 import model.KanjiGroup
 import repositories.KanjiRepository
 
@@ -21,7 +22,7 @@ class KanjiModule {
         kanjiRepository: KanjiRepository,
         kanjiDaoFactory: KanjiDaoFactory
     ): KanjiInteractor {
-        return KanjiInteractor(kanjiRepository, kanjiDaoFactory)
+        return KanjiInteractorImpl(kanjiRepository, kanjiDaoFactory)
     }
 
 }

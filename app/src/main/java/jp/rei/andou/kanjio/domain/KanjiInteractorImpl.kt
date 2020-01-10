@@ -1,28 +1,31 @@
 package jp.rei.andou.kanjio.domain
 
+import domain.KanjiInteractor
 import jp.rei.andou.kanjio.data.KanjiDaoFactory
 import jp.rei.andou.kanjio.data.repositories.RoomKanjiRepository
 import model.Kanji
 import model.KanjiGroup
 import repositories.KanjiRepository
 
-class KanjiInteractor(
+class KanjiInteractorImpl(
     private var kanjiRepository: KanjiRepository,
     private val kanjiDaoFactory: KanjiDaoFactory
-) {
+) : KanjiInteractor {
 
-    fun getKanjiListByLevel(level: Int): List<Kanji> {
+    override fun getKanjiListByLevel(level: Int): List<Kanji> {
         return kanjiRepository.getKanjiByLevel(level)
     }
 
-    fun getCurrentKanjiGroup(): KanjiGroup = kanjiRepository.kanjiGroup
+    override fun getCurrentKanjiGroup(): KanjiGroup = kanjiRepository.kanjiGroup
 
-    fun changeKanjiGroup(kanjiGroup: KanjiGroup) {
+    override fun changeKanjiGroup(kanjiGroup: KanjiGroup) {
         kanjiRepository = RoomKanjiRepository(kanjiGroup, kanjiDaoFactory.createKanjiDaoFor(kanjiGroup)) //todo move to different layer
     }
 
-    fun getCurrentKanjiGroupLevel(): Int {
+    override fun getCurrentKanjiGroupLevel(): Int {
         return kanjiRepository.getKanjiGroupLevel()
     }
 
 }
+
+

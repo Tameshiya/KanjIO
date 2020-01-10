@@ -12,17 +12,19 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import jp.rei.andou.kanjio.domain.KanjiInteractor
-import jp.rei.andou.kanjio.presentation.KanjiListWidget
-import jp.rei.andou.kanjio.presentation.KanjiPresenter
+import domain.KanjiInteractor
+import jp.rei.andou.kanjio.presentation.KanjiAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_list.view.*
 import kotlinx.android.synthetic.main.dialog_list_item.view.*
+import model.Kanji
 import model.KanjiGroup
+import presentation.KanjiListView
+import presentation.KanjiPresenter
 import javax.inject.Inject
 
 
-class KanjiListActivity : AppCompatActivity() {
+class KanjiListActivity : AppCompatActivity(), KanjiListView {
 
     @Inject
     lateinit var kanjiInteractor: KanjiInteractor
@@ -38,7 +40,7 @@ class KanjiListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         kanji_list.layoutManager = LinearLayoutManager(this)
         kanji_list.setHasFixedSize(true)
-        kanjiPresenter = KanjiPresenter(KanjiListWidget(toolbar, kanji_list), kanjiInteractor)
+        kanjiPresenter = KanjiPresenter(kanjiInteractor).apply { setView(this@KanjiListActivity) }
 
         /* todo
             KanjiView(
@@ -49,6 +51,24 @@ class KanjiListActivity : AppCompatActivity() {
             )
         )*/
     }
+
+    override fun showList(list: List<Kanji>) {
+        kanji_list.adapter = KanjiAdapter(list)
+    }
+
+    override fun setTitle(currentKanjiGroup: KanjiGroup) {
+        toolbar.title = currentKanjiGroup.title
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //todo handle cases like moxy
+        kanjiPresenter.releaseView()
+    }
+
+
+    ///////////move below logic to mvp/////////////
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.kanji_menu, menu)
