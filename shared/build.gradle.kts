@@ -4,6 +4,10 @@ plugins {
     kotlin("multiplatform")
 }
 
+apply {
+    plugin("com.squareup.sqldelight")
+}
+
 kotlin {
     val iOSTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
         if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
@@ -27,6 +31,10 @@ kotlin {
 
     sourceSets["androidMain"].dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    }
+
+    sourceSets["iosMain"].dependencies {
+        implementation("com.squareup.sqldelight:ios-driver")
     }
 
 }

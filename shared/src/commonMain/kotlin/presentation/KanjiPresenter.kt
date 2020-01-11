@@ -13,7 +13,7 @@ class KanjiPresenter(
 
     private var kanjiListView: KanjiListView? = null
 
-    init {
+    fun startFlow() {
         renderKanjiList(interactor.getCurrentKanjiGroup(), interactor.getCurrentKanjiGroupLevel())
     }
 

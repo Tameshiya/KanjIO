@@ -40,7 +40,10 @@ class KanjiListActivity : AppCompatActivity(), KanjiListView {
         setSupportActionBar(toolbar)
         kanji_list.layoutManager = LinearLayoutManager(this)
         kanji_list.setHasFixedSize(true)
-        kanjiPresenter = KanjiPresenter(kanjiInteractor).apply { setView(this@KanjiListActivity) }
+        kanjiPresenter = KanjiPresenter(kanjiInteractor).apply {
+            setView(this@KanjiListActivity)
+            startFlow()
+        }
 
         /* todo
             KanjiView(
