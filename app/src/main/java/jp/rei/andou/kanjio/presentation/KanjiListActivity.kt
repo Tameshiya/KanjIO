@@ -1,4 +1,4 @@
-package jp.rei.andou.kanjio
+package jp.rei.andou.kanjio.presentation
 
 import android.content.Context
 import android.graphics.Canvas
@@ -12,10 +12,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import jp.rei.andou.kanjio.App
+import jp.rei.andou.kanjio.R
 import jp.rei.andou.kanjio.data.model.KanjiGroup
-import jp.rei.andou.kanjio.domain.KanjiInteractor
-import jp.rei.andou.kanjio.presentation.KanjiListWidget
-import jp.rei.andou.kanjio.presentation.KanjiPresenter
+import jp.rei.andou.kanjio.presentation.presenter.KanjiPresenter
+import jp.rei.andou.kanjio.presentation.view.KanjiListViewImpl
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_list.view.*
 import kotlinx.android.synthetic.main.dialog_list_item.view.*
@@ -25,9 +26,7 @@ import javax.inject.Inject
 class KanjiListActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var kanjiInteractor: KanjiInteractor
-
-    private lateinit var kanjiPresenter: KanjiPresenter
+    lateinit var kanjiPresenter: KanjiPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +37,7 @@ class KanjiListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         kanji_list.layoutManager = LinearLayoutManager(this)
         kanji_list.setHasFixedSize(true)
-        kanjiPresenter = KanjiPresenter(KanjiListWidget(toolbar, kanji_list), kanjiInteractor)
+        kanjiPresenter.attachView(KanjiListViewImpl(toolbar, kanji_list), lifecycle)
 
         /* todo
             KanjiView(
@@ -76,14 +75,15 @@ class KanjiListActivity : AppCompatActivity() {
             levels.layoutManager = LinearLayoutManager(this)
             val dialog = AlertDialog.Builder(this).setView(dialogListView).create()
             val kanjiGroupLevels = (1 until maxLevel + 1).map { it.toString() }
-            levels.adapter = KanjiFilterAdapter(
-                content = kanjiGroupLevels,
-                titleRenderer = {position -> kanjiGroupLevels[position] },
-                onGroupClickListener = {
-                    kanjiPresenter.changeNewKanjiGroupLevel(it.toInt())
-                    dialog.dismiss()
-                }
-            )
+            levels.adapter =
+                KanjiFilterAdapter(
+                    content = kanjiGroupLevels,
+                    titleRenderer = { position -> kanjiGroupLevels[position] },
+                    onGroupClickListener = {
+                        kanjiPresenter.changeNewKanjiGroupLevel(it.toInt())
+                        dialog.dismiss()
+                    }
+                )
             //todo fix window leaking
             dialog.show()
         }
@@ -95,13 +95,14 @@ class KanjiListActivity : AppCompatActivity() {
         groups.layoutManager = LinearLayoutManager(this)
         val dialog = AlertDialog.Builder(this).setView(dialogListView).create()
         val kanjiGroups = KanjiGroup.values().toList()
-        groups.adapter = KanjiFilterAdapter(
-            content = kanjiGroups,
-            titleRenderer = {position ->  kanjiGroups[position].title},
-            onGroupClickListener = {
-            kanjiPresenter.setNewKanjiGroup(it)
-            dialog.dismiss()
-        })
+        groups.adapter =
+            KanjiFilterAdapter(
+                content = kanjiGroups,
+                titleRenderer = { position -> kanjiGroups[position].title },
+                onGroupClickListener = {
+                    kanjiPresenter.setNewKanjiGroup(it)
+                    dialog.dismiss()
+                })
         //todo fix window leaking
         dialog.show()
     }
@@ -118,7 +119,11 @@ class KanjiListActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListDialogViewHolder {
             return ListDialogViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.dialog_list_item, parent, false)
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.dialog_list_item,
+                    parent,
+                    false
+                )
             )
         }
 
