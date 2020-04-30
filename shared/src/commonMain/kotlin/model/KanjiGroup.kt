@@ -1,4 +1,4 @@
-package jp.rei.andou.kanjio.data.model
+package model
 
 enum class KanjiGroup(val title: String) {
 

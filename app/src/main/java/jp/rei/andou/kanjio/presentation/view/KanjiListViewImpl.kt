@@ -1,18 +1,27 @@
 package jp.rei.andou.kanjio.presentation.view
 
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import jp.rei.andou.kanjio.data.entities.Kanji
-import jp.rei.andou.kanjio.data.model.KanjiGroup
 import jp.rei.andou.kanjio.presentation.adapter.KanjiAdapter
+import model.Kanji
+import model.KanjiGroup
 
 class KanjiListViewImpl(
     private val toolbar: Toolbar,
-    private val recylerView: RecyclerView
+    recylerView: RecyclerView
 ) : KanjiListView {
 
-    override fun showList(list: List<Kanji>) {
-        recylerView.adapter = KanjiAdapter(list)
+    private val kanjiListAdapter = KanjiAdapter()
+
+    init {
+        recylerView.adapter = kanjiListAdapter
+        recylerView.layoutManager = LinearLayoutManager(recylerView.context)
+        recylerView.setHasFixedSize(true)
+    }
+
+    override fun showList(kanjiList: List<Kanji>) {
+        kanjiListAdapter.updateKanji(kanjiList)
     }
 
     override fun setTitle(currentKanjiGroup: KanjiGroup) {

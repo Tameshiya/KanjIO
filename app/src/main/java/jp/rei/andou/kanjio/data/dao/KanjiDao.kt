@@ -1,12 +1,11 @@
 package jp.rei.andou.kanjio.data.dao
 
-import io.reactivex.Maybe
-import io.reactivex.Single
 import jp.rei.andou.kanjio.data.entities.Kanji
+import kotlinx.coroutines.flow.Flow
 
 interface KanjiDao {
 
-    fun getKanjiListByLevel(level: Int) : Maybe<List<Kanji>>
+    fun getKanjiListByLevel(level: Int) : Flow<List<Kanji>>
 
-    fun getKanjiGroupGreatestLevel() : Single<Int>
+    fun getKanjiGroupGreatestLevel() : Flow<Int>
 }

@@ -1,13 +1,14 @@
 package jp.rei.andou.kanjio.presentation.presenter
 
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import jp.rei.andou.kanjio.data.model.KanjiGroup
+import android.util.Log
 import jp.rei.andou.kanjio.domain.KanjiInteractor
 import jp.rei.andou.kanjio.presentation.view.KanjiListView
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.launch
+import model.KanjiGroup
 import javax.inject.Inject
 
 /*todo
@@ -18,46 +19,35 @@ class KanjiPresenter @Inject constructor(
     private val interactor: KanjiInteractor
 ) : CommonPresenter<KanjiListView>() {
 
-    //todo clean
-    private val compositeDisposable = CompositeDisposable()
-
-    init {
-        interactor.getCurrentKanjiGroupLevel()
-            .subscribe { level ->
-                renderKanjiList(interactor.getCurrentKanjiGroup(), level)
-            }
-            .composeDisposable()
+    fun init() {
+        Log.e("INIT", "START")
+        MainScope().launch {
+            renderCurrentKanjiList(interactor.getCurrentKanjiGroup())
+        }
+        Log.e("INIT", "FAILED")
     }
 
-    fun setNewKanjiGroup(kanjiGroup: KanjiGroup) {
+    suspend fun setNewKanjiGroup(kanjiGroup: KanjiGroup) {
         interactor.changeKanjiGroup(kanjiGroup)
-        interactor.getCurrentKanjiGroupLevel()
-            .subscribe { level ->
-                renderKanjiList(kanjiGroup, level)
-            }
-            .composeDisposable()
+        renderCurrentKanjiList(kanjiGroup)
     }
 
-    private fun renderKanjiList(kanjiGroup: KanjiGroup? = null, level: Int) {
+    private suspend fun renderCurrentKanjiList(kanjiGroup: KanjiGroup? = null) {
         view?.setTitle(kanjiGroup ?: interactor.getCurrentKanjiGroup())
-        interactor.getKanjiListByLevel(level)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
+        interactor.getCurrentKanjiGroupLevel()
+            .flatMapMerge { level -> return@flatMapMerge interactor.getKanjiListByLevel(level) }
+            .collect { list ->
                 view?.showList(list)
             }
-            .composeDisposable()
     }
 
-    fun getKanjiGroupLevels(): Single<Int> {
-        return interactor.getCurrentKanjiGroupLevel()
-    }
+    fun getKanjiGroupLevels(): Flow<Int> = interactor.getCurrentKanjiGroupLevel()
 
-    fun changeNewKanjiGroupLevel(level: Int) {
-        renderKanjiList(level = level)
-    }
-
-    private fun Disposable.composeDisposable() {
-        compositeDisposable.addAll(this)
+    suspend fun changeNewKanjiGroupLevel(level: Int) {
+        view?.setTitle(interactor.getCurrentKanjiGroup())
+        interactor.getKanjiListByLevel(level)
+            .collect { list ->
+                view?.showList(list)
+            }
     }
 }

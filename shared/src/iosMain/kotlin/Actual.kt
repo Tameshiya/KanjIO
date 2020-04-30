@@ -1,0 +1,1 @@
+actual fun platformText(): String = UIDevice.currentDevice.systemName

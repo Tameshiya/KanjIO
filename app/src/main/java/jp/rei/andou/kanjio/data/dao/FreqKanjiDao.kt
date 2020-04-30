@@ -2,9 +2,8 @@ package jp.rei.andou.kanjio.data.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import io.reactivex.Maybe
-import io.reactivex.Single
 import jp.rei.andou.kanjio.data.entities.Kanji
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FreqKanjiDao : KanjiDao {
@@ -16,13 +15,13 @@ interface FreqKanjiDao : KanjiDao {
             ORDER BY freq_sequence
         """
     )
-    override fun getKanjiListByLevel(level: Int): Maybe<List<Kanji>>
+    override fun getKanjiListByLevel(level: Int): Flow<List<Kanji>>
 
     @Query(
         """
             SELECT MAX(freq_level) FROM kanji_sequence
         """
     )
-    override fun getKanjiGroupGreatestLevel() : Single<Int>
+    override fun getKanjiGroupGreatestLevel() : Flow<Int>
 
 }

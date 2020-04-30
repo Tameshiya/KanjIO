@@ -5,7 +5,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import jp.rei.andou.kanjio.presentation.view.CommonView
 
-@Suppress("LeakingThis")
 abstract class CommonPresenter<T : CommonView> : LifecycleObserver {
 
     var view: T? = null

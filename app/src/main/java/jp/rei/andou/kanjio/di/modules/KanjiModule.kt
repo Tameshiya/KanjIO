@@ -3,9 +3,9 @@ package jp.rei.andou.kanjio.di.modules
 import dagger.Module
 import dagger.Provides
 import jp.rei.andou.kanjio.data.KanjiDaoFactory
-import jp.rei.andou.kanjio.data.model.KanjiGroup
 import jp.rei.andou.kanjio.data.repositories.kanji.KanjiRepository
 import jp.rei.andou.kanjio.domain.KanjiInteractor
+import model.KanjiGroup
 
 @Module
 class KanjiModule {
