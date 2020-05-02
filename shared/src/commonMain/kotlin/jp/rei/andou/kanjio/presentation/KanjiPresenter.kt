@@ -1,7 +1,7 @@
-package presentation
+package jp.rei.andou.kanjio.presentation
 
-import domain.KanjiInteractor
-import model.KanjiGroup
+import jp.rei.andou.kanjio.data.KanjiGroup
+import jp.rei.andou.kanjio.domain.KanjiInteractor
 
 /*todo
     1) 漢字検索 (漢字、音読み、くんよみ　入力）

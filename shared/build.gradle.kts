@@ -2,10 +2,13 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
+    id("com.squareup.sqldelight")
 }
 
-apply {
-    plugin("com.squareup.sqldelight")
+sqldelight {
+    database("KanjiDb") {
+        packageName = "jp.rei.andou.kanjio"
+    }
 }
 
 kotlin {
@@ -27,6 +30,7 @@ kotlin {
 
     sourceSets["commonMain"].dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+        implementation("com.squareup.sqldelight:coroutines-extensions:1.2.1")
     }
 
     sourceSets["androidMain"].dependencies {
@@ -34,7 +38,7 @@ kotlin {
     }
 
     sourceSets["iosMain"].dependencies {
-        implementation("com.squareup.sqldelight:ios-driver")
+        implementation("com.squareup.sqldelight:native-driver:1.3.0")
     }
 
 }

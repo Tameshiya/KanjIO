@@ -3,9 +3,9 @@ package jp.rei.andou.kanjio.presentation.view
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import jp.rei.andou.kanjio.data.Kanji
+import jp.rei.andou.kanjio.data.KanjiGroup
 import jp.rei.andou.kanjio.presentation.adapter.KanjiAdapter
-import model.Kanji
-import model.KanjiGroup
 
 class KanjiListViewImpl(
     private val toolbar: Toolbar,

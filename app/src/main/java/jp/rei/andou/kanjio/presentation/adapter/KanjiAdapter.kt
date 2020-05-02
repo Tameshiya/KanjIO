@@ -6,7 +6,7 @@ import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.R
-import model.Kanji
+import jp.rei.andou.kanjio.data.Kanji
 
 class KanjiAdapter : RecyclerView.Adapter<KanjiViewHolder>() {
 

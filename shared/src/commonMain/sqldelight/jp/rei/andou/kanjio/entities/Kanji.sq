@@ -1,0 +1,31 @@
+--todo adapters for lists
+CREATE TABLE IF NOT EXISTS kanji (
+    code INTEGER,
+    custom_kun_reading TEXT,
+    custom_meaning TEXT,
+    custom_on_reading TEXT,
+    kun_reading TEXT,
+    level INTEGER,
+    meaning TEXT,
+    on_reading TEXT,
+    radicals TEXT,
+    reading TEXT,
+    sequence INTEGER,
+    stroke_count INTEGER,
+    stroke_paths TEXT,
+    decomposition TEXT,
+    translation TEXT,
+    stroke_highlights TEXT,
+    PRIMARY KEY(code)
+);
+CREATE INDEX IF NOT EXISTS level_idx ON kanji (level);
+CREATE INDEX IF NOT EXISTS sequence_idx ON kanji (sequence);
+CREATE INDEX IF NOT EXISTS stroke_count_idx ON kanji (stroke_count);
+
+getKanjiListByLevel:
+SELECT k.* FROM kanji k
+JOIN kanji_sequence ks ON k.code = ks.code AND ks.jlpt_level = ?
+ORDER BY ks.jlpt_revised_sequence;
+
+getKanjiGroupGreatestLevel:
+SELECT CAST (MAX(jlpt_level) AS INTEGER) FROM kanji_sequence;

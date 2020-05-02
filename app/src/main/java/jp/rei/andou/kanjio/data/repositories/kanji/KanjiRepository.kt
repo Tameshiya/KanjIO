@@ -1,12 +1,12 @@
 package jp.rei.andou.kanjio.data.repositories.kanji
 
+import jp.rei.andou.kanjio.data.Kanji
+import jp.rei.andou.kanjio.data.KanjiGroup
 import jp.rei.andou.kanjio.data.dao.KanjiDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import model.Kanji
-import model.KanjiGroup
 import jp.rei.andou.kanjio.data.entities.Kanji as KanjiData
 
 class KanjiRepository(val kanjiGroup: KanjiGroup, private val kanjiDao: KanjiDao) {
@@ -22,5 +22,13 @@ class KanjiRepository(val kanjiGroup: KanjiGroup, private val kanjiDao: KanjiDao
 }
 
 private fun List<KanjiData>.toUiKanji(): List<Kanji> {
-    return map { Kanji(it.code, it.kunReading, it.level, it.meaning, it.onReading) }
+    return map {
+        Kanji(
+            it.code,
+            it.kunReading,
+            it.level,
+            it.meaning,
+            it.onReading
+        )
+    }
 }

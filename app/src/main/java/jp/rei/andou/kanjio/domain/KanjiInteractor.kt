@@ -1,12 +1,12 @@
 package jp.rei.andou.kanjio.domain
 
+import jp.rei.andou.kanjio.data.Kanji
 import jp.rei.andou.kanjio.data.KanjiDaoFactory
+import jp.rei.andou.kanjio.data.KanjiGroup
 import jp.rei.andou.kanjio.data.repositories.kanji.KanjiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import model.Kanji
-import model.KanjiGroup
 
 class KanjiInteractor(
     private var kanjiRepository: KanjiRepository,

@@ -1,7 +1,6 @@
 package jp.rei.andou.kanjio.data
 
 import jp.rei.andou.kanjio.data.dao.KanjiDao
-import model.KanjiGroup
 
 class KanjiDaoFactory(private val database: KanjiDatabase) {
     

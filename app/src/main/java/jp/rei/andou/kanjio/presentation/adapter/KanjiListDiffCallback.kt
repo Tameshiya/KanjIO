@@ -1,7 +1,7 @@
 package jp.rei.andou.kanjio.presentation.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import model.Kanji
+import jp.rei.andou.kanjio.data.Kanji
 
 class KanjiListDiffCallback(
     private val oldKanjiList: List<Kanji>,

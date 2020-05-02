@@ -1,7 +1,4 @@
-package repositories
-
-import model.Kanji
-import model.KanjiGroup
+package jp.rei.andou.kanjio.data
 
 interface KanjiRepository {
 

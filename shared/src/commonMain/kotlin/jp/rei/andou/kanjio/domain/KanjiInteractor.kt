@@ -1,7 +1,7 @@
-package domain
+package jp.rei.andou.kanjio.domain
 
-import model.Kanji
-import model.KanjiGroup
+import jp.rei.andou.kanjio.data.Kanji
+import jp.rei.andou.kanjio.data.KanjiGroup
 
 interface KanjiInteractor {
     
