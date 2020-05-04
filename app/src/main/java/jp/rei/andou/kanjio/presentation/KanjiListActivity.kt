@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.App
 import jp.rei.andou.kanjio.R
 import jp.rei.andou.kanjio.data.KanjiGroup
-import jp.rei.andou.kanjio.presentation.presenter.KanjiPresenter
 import jp.rei.andou.kanjio.presentation.view.KanjiFilterAdapter
 import jp.rei.andou.kanjio.presentation.view.KanjiListViewImpl
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,17 +31,18 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        (application as App).applicationComponent.inject(this@KanjiListActivity)
+        (application as App).applicationComponent.inject(this)
 
         setSupportActionBar(toolbar)
 
-        kanjiPresenter.attachView(KanjiListViewImpl(toolbar, kanji_list), lifecycle)
+        kanjiPresenter.attachView(KanjiListViewImpl(toolbar, kanji_list))
         launch {
             kanjiPresenter.init()
         }
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         cancel("Activity has been destroyed")
     }
 

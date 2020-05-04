@@ -2,14 +2,13 @@ package jp.rei.andou.kanjio.domain
 
 import jp.rei.andou.kanjio.data.Kanji
 import jp.rei.andou.kanjio.data.KanjiGroup
+import kotlinx.coroutines.flow.Flow
 
 interface KanjiInteractor {
     
-    fun getKanjiListByLevel(level: Int): List<Kanji>
+    fun getKanjiListByLevel(level: Int): Flow<List<Kanji>>
 
     fun getCurrentKanjiGroup(): KanjiGroup
 
-    fun changeKanjiGroup(kanjiGroup: KanjiGroup)
-
-    fun getCurrentKanjiGroupLevel(): Int
+    fun getCurrentKanjiGroupLevel(): Flow<Int>
 }

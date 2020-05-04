@@ -24,8 +24,8 @@ class KanjiAdapter : RecyclerView.Adapter<KanjiViewHolder>() {
         with(kanjiList[position]) {
             val kanji = "&#$code;" //todo move formatting to repo
             holder.kanji.text = HtmlCompat.fromHtml(kanji, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            holder.onyomi.text = onReading
-            holder.kunyomi.text = kunReading
+            holder.onyomi.text = onYomi
+            holder.kunyomi.text = kunYomi
         }
     }
 

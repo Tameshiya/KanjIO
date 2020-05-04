@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.data.Kanji
 import jp.rei.andou.kanjio.data.KanjiGroup
+import jp.rei.andou.kanjio.presentation.KanjiListView
 import jp.rei.andou.kanjio.presentation.adapter.KanjiAdapter
 
 class KanjiListViewImpl(
@@ -20,8 +21,8 @@ class KanjiListViewImpl(
         recylerView.setHasFixedSize(true)
     }
 
-    override fun showList(kanjiList: List<Kanji>) {
-        kanjiListAdapter.updateKanji(kanjiList)
+    override fun showList(list: List<Kanji>) {
+        kanjiListAdapter.updateKanji(list)
     }
 
     override fun setTitle(currentKanjiGroup: KanjiGroup) {
