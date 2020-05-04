@@ -1,0 +1,610 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "27bc9136498eb1e799021f68ee9ccca5",
+    "entities": [
+      {
+        "tableName": "kanji",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` INTEGER, `custom_kun_reading` TEXT, `custom_meaning` TEXT, `custom_on_reading` TEXT, `kun_reading` TEXT, `level` INTEGER, `meaning` TEXT, `on_reading` TEXT, `radicals` TEXT, `reading` TEXT, `sequence` INTEGER, `stroke_count` INTEGER, `stroke_paths` TEXT, `decomposition` TEXT, `translation` TEXT, `stroke_highlights` TEXT, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customKunReading",
+            "columnName": "custom_kun_reading",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customMeaning",
+            "columnName": "custom_meaning",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "customOnReading",
+            "columnName": "custom_on_reading",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kunReading",
+            "columnName": "kun_reading",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "meaning",
+            "columnName": "meaning",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "onReading",
+            "columnName": "on_reading",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "radicals",
+            "columnName": "radicals",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reading",
+            "columnName": "reading",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sequence",
+            "columnName": "sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "strokeCount",
+            "columnName": "stroke_count",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "strokePaths",
+            "columnName": "stroke_paths",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "decomposition",
+            "columnName": "decomposition",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "translation",
+            "columnName": "translation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "strokeHighlights",
+            "columnName": "stroke_highlights",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "code"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "level_idx",
+            "unique": false,
+            "columnNames": [
+              "level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `level_idx` ON `${TABLE_NAME}` (`level`)"
+          },
+          {
+            "name": "sequence_idx",
+            "unique": false,
+            "columnNames": [
+              "sequence"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `sequence_idx` ON `${TABLE_NAME}` (`sequence`)"
+          },
+          {
+            "name": "stroke_count_idx",
+            "unique": false,
+            "columnNames": [
+              "stroke_count"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `stroke_count_idx` ON `${TABLE_NAME}` (`stroke_count`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "kanji_sequence",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` INTEGER, `freq_level` INTEGER, `freq_sequence` INTEGER, `heisig_level` INTEGER, `heisig_revised_level` INTEGER, `heisig_revised_sequence` INTEGER, `heisig_sequence` INTEGER, `jlpt_level` INTEGER, `jlpt_revised_level` INTEGER, `jlpt_revised_sequence` INTEGER, `jlpt_sequence` INTEGER, `jouyou_level` INTEGER, `jouyou_revised_level` INTEGER, `jouyou_revised_sequence` INTEGER, `jouyou_sequence` INTEGER, `kanken_level` INTEGER, `kanken_sequence` INTEGER, `kic_level` INTEGER, `kic_sequence` INTEGER, `kklc_level` INTEGER, `kklc_sequence` INTEGER, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "freqLevel",
+            "columnName": "freq_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "freqSequence",
+            "columnName": "freq_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "heisigLevel",
+            "columnName": "heisig_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "heisigRevisedLevel",
+            "columnName": "heisig_revised_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "heisigRevisedSequence",
+            "columnName": "heisig_revised_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "heisigSequence",
+            "columnName": "heisig_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jlptLevel",
+            "columnName": "jlpt_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jlptRevisedLevel",
+            "columnName": "jlpt_revised_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jlptRevisedSequence",
+            "columnName": "jlpt_revised_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jlptSequence",
+            "columnName": "jlpt_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jouyouLevel",
+            "columnName": "jouyou_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jouyouRevisedLevel",
+            "columnName": "jouyou_revised_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jouyouRevisedSequence",
+            "columnName": "jouyou_revised_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jouyouSequence",
+            "columnName": "jouyou_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kankenLevel",
+            "columnName": "kanken_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kankenSequence",
+            "columnName": "kanken_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kicLevel",
+            "columnName": "kic_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kicSequence",
+            "columnName": "kic_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kklcLevel",
+            "columnName": "kklc_level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "kklcSequence",
+            "columnName": "kklc_sequence",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "code"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "jlpt_revised_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jlpt_revised_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `jlpt_revised_level_idx` ON `${TABLE_NAME}` (`jlpt_revised_level`)"
+          },
+          {
+            "name": "kanji_sequence_kic_sequence_idx",
+            "unique": false,
+            "columnNames": [
+              "kic_sequence"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_kic_sequence_idx` ON `${TABLE_NAME}` (`kic_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_heisig_revised_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "heisig_revised_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_heisig_revised_sequence_idx` ON `${TABLE_NAME}` (`heisig_revised_sequence`)"
+          },
+          {
+            "name": "jlpt_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jlpt_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `jlpt_level_idx` ON `${TABLE_NAME}` (`jlpt_level`)"
+          },
+          {
+            "name": "kklc_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "kklc_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kklc_sequence_idx` ON `${TABLE_NAME}` (`kklc_sequence`)"
+          },
+          {
+            "name": "heisig_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "heisig_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `heisig_sequence_idx` ON `${TABLE_NAME}` (`heisig_sequence`)"
+          },
+          {
+            "name": "freq_level_idx",
+            "unique": false,
+            "columnNames": [
+              "freq_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `freq_level_idx` ON `${TABLE_NAME}` (`freq_level`)"
+          },
+          {
+            "name": "heisig_revised_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "heisig_revised_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `heisig_revised_sequence_idx` ON `${TABLE_NAME}` (`heisig_revised_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_heisig_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "heisig_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_heisig_sequence_idx` ON `${TABLE_NAME}` (`heisig_sequence`)"
+          },
+          {
+            "name": "jouyou_revised_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jouyou_revised_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `jouyou_revised_sequence_idx` ON `${TABLE_NAME}` (`jouyou_revised_sequence`)"
+          },
+          {
+            "name": "kanken_level_idx",
+            "unique": false,
+            "columnNames": [
+              "kanken_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanken_level_idx` ON `${TABLE_NAME}` (`kanken_level`)"
+          },
+          {
+            "name": "kanji_sequence_jouyou_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jouyou_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_jouyou_sequence_idx` ON `${TABLE_NAME}` (`jouyou_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_kklc_level_idx",
+            "unique": false,
+            "columnNames": [
+              "kklc_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_kklc_level_idx` ON `${TABLE_NAME}` (`kklc_level`)"
+          },
+          {
+            "name": "kanji_sequence_freq_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "freq_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_freq_sequence_idx` ON `${TABLE_NAME}` (`freq_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_heisig_level_idx",
+            "unique": false,
+            "columnNames": [
+              "heisig_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_heisig_level_idx` ON `${TABLE_NAME}` (`heisig_level`)"
+          },
+          {
+            "name": "freq_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "freq_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `freq_sequence_idx` ON `${TABLE_NAME}` (`freq_sequence`)"
+          },
+          {
+            "name": "kic_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "kic_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kic_sequence_idx` ON `${TABLE_NAME}` (`kic_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_jlpt_revised_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jlpt_revised_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_jlpt_revised_level_idx` ON `${TABLE_NAME}` (`jlpt_revised_level`)"
+          },
+          {
+            "name": "kanji_sequence_jouyou_revised_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jouyou_revised_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_jouyou_revised_sequence_idx` ON `${TABLE_NAME}` (`jouyou_revised_sequence`)"
+          },
+          {
+            "name": "jlpt_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jlpt_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `jlpt_sequence_idx` ON `${TABLE_NAME}` (`jlpt_sequence`)"
+          },
+          {
+            "name": "jlpt_revised_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jlpt_revised_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `jlpt_revised_sequence_idx` ON `${TABLE_NAME}` (`jlpt_revised_sequence`)"
+          },
+          {
+            "name": "kanken_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "kanken_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanken_sequence_idx` ON `${TABLE_NAME}` (`kanken_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_kic_level_idx",
+            "unique": false,
+            "columnNames": [
+              "kic_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_kic_level_idx` ON `${TABLE_NAME}` (`kic_level`)"
+          },
+          {
+            "name": "kanji_sequence_jouyou_revised_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jouyou_revised_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_jouyou_revised_level_idx` ON `${TABLE_NAME}` (`jouyou_revised_level`)"
+          },
+          {
+            "name": "heisig_level_idx",
+            "unique": false,
+            "columnNames": [
+              "heisig_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `heisig_level_idx` ON `${TABLE_NAME}` (`heisig_level`)"
+          },
+          {
+            "name": "kklc_level_idx",
+            "unique": false,
+            "columnNames": [
+              "kklc_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kklc_level_idx` ON `${TABLE_NAME}` (`kklc_level`)"
+          },
+          {
+            "name": "kanji_sequence_kanken_level_idx",
+            "unique": false,
+            "columnNames": [
+              "kanken_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_kanken_level_idx` ON `${TABLE_NAME}` (`kanken_level`)"
+          },
+          {
+            "name": "jouyou_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jouyou_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `jouyou_level_idx` ON `${TABLE_NAME}` (`jouyou_level`)"
+          },
+          {
+            "name": "jouyou_revised_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jouyou_revised_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `jouyou_revised_level_idx` ON `${TABLE_NAME}` (`jouyou_revised_level`)"
+          },
+          {
+            "name": "kanji_sequence_jlpt_revised_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jlpt_revised_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_jlpt_revised_sequence_idx` ON `${TABLE_NAME}` (`jlpt_revised_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_jlpt_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jlpt_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_jlpt_level_idx` ON `${TABLE_NAME}` (`jlpt_level`)"
+          },
+          {
+            "name": "kanji_sequence_jlpt_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jlpt_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_jlpt_sequence_idx` ON `${TABLE_NAME}` (`jlpt_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_kanken_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "kanken_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_kanken_sequence_idx` ON `${TABLE_NAME}` (`kanken_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_kklc_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "kklc_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `kanji_sequence_kklc_sequence_idx` ON `${TABLE_NAME}` (`kklc_sequence`)"
+          },
+          {
+            "name": "kanji_sequence_freq_level_idx",
+            "unique": false,
+            "columnNames": [
+              "freq_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_freq_level_idx` ON `${TABLE_NAME}` (`freq_level`)"
+          },
+          {
+            "name": "kanji_sequence_jouyou_level_idx",
+            "unique": false,
+            "columnNames": [
+              "jouyou_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_jouyou_level_idx` ON `${TABLE_NAME}` (`jouyou_level`)"
+          },
+          {
+            "name": "heisig_revised_level_idx",
+            "unique": false,
+            "columnNames": [
+              "heisig_revised_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `heisig_revised_level_idx` ON `${TABLE_NAME}` (`heisig_revised_level`)"
+          },
+          {
+            "name": "kanji_sequence_heisig_revised_level_idx",
+            "unique": false,
+            "columnNames": [
+              "heisig_revised_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kanji_sequence_heisig_revised_level_idx` ON `${TABLE_NAME}` (`heisig_revised_level`)"
+          },
+          {
+            "name": "kic_level_idx",
+            "unique": false,
+            "columnNames": [
+              "kic_level"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `kic_level_idx` ON `${TABLE_NAME}` (`kic_level`)"
+          },
+          {
+            "name": "jouyou_sequence_idx",
+            "unique": true,
+            "columnNames": [
+              "jouyou_sequence"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `jouyou_sequence_idx` ON `${TABLE_NAME}` (`jouyou_sequence`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '27bc9136498eb1e799021f68ee9ccca5')"
+    ]
+  }
+}

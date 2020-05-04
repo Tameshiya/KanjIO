@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import jp.rei.andou.kanjio.data.model.KanjiGroup
+import jp.rei.andou.kanjio.data.KanjiGroup
 
 private const val KANJI_PREFS = "kanji_prefs"
 private const val KANJI_SET_PREFS_KEY = "kanji_set_prefs_key"

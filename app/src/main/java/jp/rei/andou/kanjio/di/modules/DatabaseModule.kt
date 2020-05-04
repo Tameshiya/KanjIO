@@ -2,11 +2,12 @@ package jp.rei.andou.kanjio.di.modules
 
 import android.content.Context
 import android.util.Log
-import androidx.room.Room
+import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.Module
 import dagger.Provides
-import jp.rei.andou.kanjio.data.KanjiDaoFactory
+import jp.rei.andou.kanjio.KanjiDb
 import jp.rei.andou.kanjio.data.KanjiDatabase
+import jp.rei.andou.kanjio.entities.KanjiQueries
 import java.io.DataInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -17,15 +18,19 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule(context: Context) {
 
-    private val database: KanjiDatabase
+    private val kanjiDatabase = KanjiDatabase()
 
     init {
-        fetchAssetDatabase(context)
-        database = Room.databaseBuilder(
-            context,
-            KanjiDatabase::class.java,
-            KanjiDatabase.DATABASE_NAME
-        ).build() //todo .openHelperFactory(new AssetSQLiteOpenHelperFactory())
+        if (!kanjiDatabase.ready) {
+            prefetchDbFromAssets(context) //todo move as singleton
+            kanjiDatabase.createDatabase(AndroidSqliteDriver(KanjiDb.Schema, name = "KanjiDb.db", context = context))
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideDaoFactory(): KanjiQueries {
+        return kanjiDatabase.instance.kanjiQueries
     }
 
     /**
@@ -33,16 +38,15 @@ class DatabaseModule(context: Context) {
      * if database file is already exists, so database is already fetched
      * @param applicationContext context of application
      */
-    private fun fetchAssetDatabase(applicationContext: Context) {
-        val databasePath: File = applicationContext.getDatabasePath(KanjiDatabase.DATABASE_NAME)
+    private fun prefetchDbFromAssets(applicationContext: Context) {
+        val databaseFileName = "${KanjiDb::class.simpleName}.db"
+        val databasePath: File = applicationContext.getDatabasePath(databaseFileName)
         if (databasePath.exists()) {
             return
         }
         try {
             DataInputStream(
-                applicationContext.resources
-                    .assets
-                    .open(KanjiDatabase.DATABASE_NAME)
+                applicationContext.resources.assets.open(databaseFileName)
             ).use { defaultDatabase ->
                 FileOutputStream(createDatabaseFile(databasePath)).use { databaseStream ->
                     val byteCount: Int = defaultDatabase.available()
@@ -60,23 +64,12 @@ class DatabaseModule(context: Context) {
 
     @Throws(IOException::class)
     private fun createDatabaseFile(dbFile: File): File {
-        val directoryCreated: Boolean = dbFile.parentFile?.mkdirs() ?: throw IOException("cannot get parent file to create directory")
+        val directoryCreated: Boolean = dbFile.parentFile?.mkdirs()
+            ?: throw IOException("cannot get parent file to create directory")
         return if (directoryCreated || dbFile.createNewFile()) {
             dbFile
         } else {
             throw IOException("Не удалось создать файл базы данных")
         }
-    }
-
-    @Provides
-    @Singleton
-    fun provideDatabase(): KanjiDatabase {
-        return database
-    }
-
-    @Provides
-    @Singleton
-    fun provideDaoFactory(database: KanjiDatabase): KanjiDaoFactory {
-        return KanjiDaoFactory(database)
     }
 }
