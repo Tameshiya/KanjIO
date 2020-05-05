@@ -25,7 +25,7 @@ actual class KanjiDatabase {
   //Called from Swift
   @Suppress("unused")
   fun defaultDriver() {
-    createDatabase(NativeSqliteDriver(KanjiDb.Schema, "sampledb"))
+    createDatabase(NativeSqliteDriver(KanjiDb.Schema, "KanjiDb.db"))
   }
 
   internal fun dbClear() {

@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64A0ABC7246141CA00794F8D /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A0ABC6246141CA00794F8D /* shared.framework */; };
+		64A0ABC8246141CA00794F8D /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 64A0ABC6246141CA00794F8D /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		64A0ABCC2461C14A00794F8D /* KanjiDb.db in Resources */ = {isa = PBXBuildFile; fileRef = 64A0ABCB2461C14A00794F8D /* KanjiDb.db */; };
 		64AA716823C4FD83002B6645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AA716723C4FD83002B6645 /* AppDelegate.swift */; };
 		64AA716A23C4FD83002B6645 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AA716923C4FD83002B6645 /* SceneDelegate.swift */; };
-		64AA716C23C4FD83002B6645 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AA716B23C4FD83002B6645 /* ViewController.swift */; };
+		64AA716C23C4FD83002B6645 /* KanjiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AA716B23C4FD83002B6645 /* KanjiListViewController.swift */; };
 		64AA716F23C4FD83002B6645 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64AA716D23C4FD83002B6645 /* Main.storyboard */; };
 		64AA717123C4FD84002B6645 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64AA717023C4FD84002B6645 /* Assets.xcassets */; };
 		64AA717423C4FD84002B6645 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64AA717223C4FD84002B6645 /* LaunchScreen.storyboard */; };
@@ -34,11 +37,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		64A0ABC9246141CA00794F8D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				64A0ABC8246141CA00794F8D /* shared.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		64A0ABC6246141CA00794F8D /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = "../../shared/build/xcode-frameworks/shared.framework"; sourceTree = "<group>"; };
+		64A0ABCB2461C14A00794F8D /* KanjiDb.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = KanjiDb.db; path = ../../app/src/main/assets/KanjiDb.db; sourceTree = "<group>"; };
 		64AA716423C4FD83002B6645 /* KanjIO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KanjIO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64AA716723C4FD83002B6645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64AA716923C4FD83002B6645 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		64AA716B23C4FD83002B6645 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		64AA716B23C4FD83002B6645 /* KanjiListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanjiListViewController.swift; sourceTree = "<group>"; };
 		64AA716E23C4FD83002B6645 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		64AA717023C4FD84002B6645 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64AA717323C4FD84002B6645 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -56,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64A0ABC7246141CA00794F8D /* shared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,13 +96,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64A0ABC5246141C900794F8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				64A0ABC6246141CA00794F8D /* shared.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		64AA715B23C4FD83002B6645 = {
 			isa = PBXGroup;
 			children = (
+				64A0ABCB2461C14A00794F8D /* KanjiDb.db */,
 				64AA716623C4FD83002B6645 /* KanjIO */,
 				64AA717D23C4FD84002B6645 /* KanjIOTests */,
 				64AA718823C4FD84002B6645 /* KanjIOUITests */,
 				64AA716523C4FD83002B6645 /* Products */,
+				64A0ABC5246141C900794F8D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,7 +131,7 @@
 			children = (
 				64AA716723C4FD83002B6645 /* AppDelegate.swift */,
 				64AA716923C4FD83002B6645 /* SceneDelegate.swift */,
-				64AA716B23C4FD83002B6645 /* ViewController.swift */,
+				64AA716B23C4FD83002B6645 /* KanjiListViewController.swift */,
 				64AA716D23C4FD83002B6645 /* Main.storyboard */,
 				64AA717023C4FD84002B6645 /* Assets.xcassets */,
 				64AA717223C4FD84002B6645 /* LaunchScreen.storyboard */,
@@ -138,6 +168,8 @@
 				64AA716023C4FD83002B6645 /* Sources */,
 				64AA716123C4FD83002B6645 /* Frameworks */,
 				64AA716223C4FD83002B6645 /* Resources */,
+				64A0ABC9246141CA00794F8D /* Embed Frameworks */,
+				64A0ABCA246149C800794F8D /* Build Kotlin Native objc framework */,
 			);
 			buildRules = (
 			);
@@ -232,6 +264,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64A0ABCC2461C14A00794F8D /* KanjiDb.db in Resources */,
 				64AA717423C4FD84002B6645 /* LaunchScreen.storyboard in Resources */,
 				64AA717123C4FD84002B6645 /* Assets.xcassets in Resources */,
 				64AA716F23C4FD83002B6645 /* Main.storyboard in Resources */,
@@ -254,12 +287,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		64A0ABCA246149C800794F8D /* Build Kotlin Native objc framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Kotlin Native objc framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/../../shared/build/xcode-frameworks\"\n./gradlew :shared:packForXCode -PXCODE_CONFIGURATION=${CONFIGURATION}\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		64AA716023C4FD83002B6645 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64AA716C23C4FD83002B6645 /* ViewController.swift in Sources */,
+				64AA716C23C4FD83002B6645 /* KanjiListViewController.swift in Sources */,
 				64AA716823C4FD83002B6645 /* AppDelegate.swift in Sources */,
 				64AA716A23C4FD83002B6645 /* SceneDelegate.swift in Sources */,
 			);
@@ -435,7 +489,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../shared/build/xcode-frameworks";
 				INFOPLIST_FILE = KanjIO/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -452,7 +508,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../shared/build/xcode-frameworks";
 				INFOPLIST_FILE = KanjIO/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

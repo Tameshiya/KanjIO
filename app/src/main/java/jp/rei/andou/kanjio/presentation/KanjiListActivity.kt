@@ -37,7 +37,7 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         kanjiPresenter.attachView(KanjiListViewImpl(toolbar, kanji_list))
         launch {
-            kanjiPresenter.init()
+            kanjiPresenter.startFlow()
         }
     }
 

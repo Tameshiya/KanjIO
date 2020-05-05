@@ -14,8 +14,12 @@ class KanjiPresenter constructor(
     private val interactor: KanjiInteractor
 ) : CommonPresenter<KanjiListView>() {
 
-    suspend fun init() {
+    suspend fun startFlow() {
         renderCurrentKanjiList(interactor.getCurrentKanjiGroup())
+    }
+
+    fun test() {
+        println("test")
     }
 
     suspend fun setNewKanjiGroup(kanjiGroup: KanjiGroup) {
