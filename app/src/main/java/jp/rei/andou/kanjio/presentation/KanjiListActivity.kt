@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.dialog_list.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,7 +59,7 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
             R.id.levels -> launch {
                 kanjiPresenter.getKanjiGroupLevels()
-                    .collect { maxLevel -> showLevelsDialog(maxLevel) }
+                    .also { maxLevel -> showLevelsDialog(maxLevel) }
             }
         }
         return super.onOptionsItemSelected(item)

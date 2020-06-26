@@ -2,9 +2,10 @@ package jp.rei.andou.kanjio.presentation
 
 import jp.rei.andou.kanjio.data.KanjiGroup
 import jp.rei.andou.kanjio.domain.KanjiInteractor
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flatMapMerge
+import jp.rei.andou.kanjio.mainDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 /*todo
     1) 漢字検索 (漢字、音読み、くんよみ　入力）
@@ -12,40 +13,41 @@ import kotlinx.coroutines.flow.flatMapMerge
  */
 class KanjiPresenter constructor(
     private val interactor: KanjiInteractor
-) : CommonPresenter<KanjiListView>() {
+) : CommonPresenter<KanjiListView>(), CoroutineScope {
 
-    suspend fun startFlow() {
-        renderCurrentKanjiList(interactor.getCurrentKanjiGroup())
+    override val coroutineContext: CoroutineContext = mainDispatcher() //todo + exceptionHandler
+
+    fun startFlow() {
+        launch {
+            interactor.getCurrentKanjiGroup()
+                .also(::renderCurrentKanjiList)
+        }
     }
 
-    fun test() {
-        println("test")
+    fun setNewKanjiGroup(kanjiGroup: KanjiGroup) {
+        launch {
+            //interactor.changeKanjiGroup(kanjiGroup)
+            renderCurrentKanjiList(kanjiGroup)
+        }
     }
 
-    suspend fun setNewKanjiGroup(kanjiGroup: KanjiGroup) {
-        //interactor.changeKanjiGroup(kanjiGroup)
-        renderCurrentKanjiList(kanjiGroup)
+    fun changeNewKanjiGroupLevel(level: Int) {
+        launch {
+            view?.setTitle(interactor.getCurrentKanjiGroup())
+            interactor.getKanjiListByLevel(level)
+                .also { list -> view?.showList(list) }
+        }
     }
 
-    suspend fun changeNewKanjiGroupLevel(level: Int) {
-        view?.setTitle(interactor.getCurrentKanjiGroup())
-        interactor.getKanjiListByLevel(level)
-            .collect { list ->
-                view?.showList(list)
-            }
-    }
-
-    fun getKanjiGroupLevels(): Flow<Int> {
+    fun getKanjiGroupLevels(): Int {
         return interactor.getCurrentKanjiGroupLevel()
     }
 
-    private suspend fun renderCurrentKanjiList(kanjiGroup: KanjiGroup? = null) {
+    private fun renderCurrentKanjiList(kanjiGroup: KanjiGroup? = null) {
         view?.setTitle(kanjiGroup ?: interactor.getCurrentKanjiGroup())
         interactor.getCurrentKanjiGroupLevel()
-            .flatMapMerge { level -> return@flatMapMerge interactor.getKanjiListByLevel(level) }
-            .collect { list ->
-                view?.showList(list)
-            }
+            .let(interactor::getKanjiListByLevel)
+            .also { list -> view?.showList(list) }
     }
 
 }

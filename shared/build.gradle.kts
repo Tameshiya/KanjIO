@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -12,9 +10,11 @@ sqldelight {
     }
 }
 
+val ideaActive = System.getProperty("idea.active") == "true"
+
 android {
     compileSdkVersion(29)
-    buildToolsVersion = "29.0.2"
+    buildToolsVersion = "29.0.3"
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(29)
@@ -27,75 +27,88 @@ android {
 }
 
 kotlin {
-    val iOSTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-            ::iosArm64
-        else
-            ::iosX64
-
-    iOSTarget("ios") {
-        binaries {
-            framework {
-                baseName = "shared"
-            }
-        }
-    }
-
     android()
     ios()
 
-    sourceSets.all {
-        languageSettings.apply {
-            languageVersion = "1.3" // possible values: '1.0', '1.1', '1.2', '1.3'
-            apiVersion = "1.3" // possible values: '1.0', '1.1', '1.2', '1.3'
-            enableLanguageFeature("InlineClasses") // language feature name
-            useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes") // annotation FQ-name
-            progressiveMode = true // false by default
+    val iosArm32 = iosArm32("iosArm32")
+    val iosArm64 = iosArm64("iosArm64")
+    val iosX64 = iosX64("iosX64")
+
+    if (ideaActive) {
+        iosX64("ios")
+    }
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+                implementation("com.squareup.sqldelight:coroutines-extensions:1.3.0")
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib")
+                implementation("com.squareup.sqldelight:android-driver:1.3.0")
+            }
+        }
+        all {
+            languageSettings.apply {
+                languageVersion = "1.3" // possible values: '1.0', '1.1', '1.2', '1.3'
+                apiVersion = "1.3" // possible values: '1.0', '1.1', '1.2', '1.3'
+                useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes") // annotation FQ-name
+                progressiveMode = true // false by default
+            }
+        }
+
+        val iosMain = getByName("iosMain")
+
+        iosMain.apply {
+            dependencies {
+                implementation("com.squareup.sqldelight:native-driver:1.3.0")
+                // implementation("com.squareup.sqldelight:ios-driver:1.2.1")
+            }
+        }
+
+        val iosArm32Main by getting {}
+        val iosArm64Main by getting {}
+        val iosX64Main by getting {}
+
+        configure(listOf(iosArm32Main, iosArm64Main, iosX64Main)) {
+            dependsOn(iosMain)
         }
     }
 
-    sourceSets["commonMain"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-        implementation("com.squareup.sqldelight:coroutines-extensions:1.3.0")
+    val frameworkName = "shared"
+
+    configure(listOf(iosArm32, iosArm64, iosX64)) {
+        compilations {
+            val main by getting {
+                //extraOpts("-Xobjc-generics")
+            }
+        }
+
+        binaries.framework {
+            //export("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.2")
+            export("com.squareup.sqldelight:native-driver:1.3.0")
+            baseName = frameworkName
+        }
     }
 
-    sourceSets["androidMain"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib")
-        implementation("com.squareup.sqldelight:android-driver:1.3.0")
+    tasks.register<org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask>("debugFatFramework") {
+        baseName = frameworkName
+        group = "Universal framework"
+        description = "Builds a universal (fat) debug framework"
+
+        from(iosX64.binaries.getFramework("DEBUG"))
     }
 
-    sourceSets["iosMain"].dependencies {
-        implementation("com.squareup.sqldelight:native-driver:1.3.0")
-       // implementation("com.squareup.sqldelight:ios-driver:1.2.1")
+    tasks.register<org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask>("releaseFatFramework") {
+        baseName = frameworkName
+        group = "Universal framework"
+        description = "Builds a universal (release) debug framework"
+
+        from(iosArm64.binaries.getFramework("RELEASE"), iosArm32.binaries.getFramework("RELEASE"))
     }
 
 }
-
-val packForXcode by tasks.creating(Sync::class) {
-    val targetDir = File(buildDir, "xcode-frameworks")
-
-    /// selecting the right configuration for the iOS
-    /// framework depending on the environment
-    /// variables set by Xcode build
-    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-    val framework = kotlin.targets
-        .getByName<KotlinNativeTarget>("ios")
-        .binaries.getFramework(mode)
-    inputs.property("mode", mode)
-    dependsOn(framework.linkTask)
-
-    from({ framework.outputDirectory })
-    into(targetDir)
-
-    /// generate a helpful ./gradlew wrapper with embedded Java path
-    doLast {
-        val gradlew = File(targetDir, "gradlew")
-        gradlew.writeText("#!/bin/bash\n"
-                + "export 'JAVA_HOME=${System.getProperty("java.home")}'\n"
-                + "cd '${rootProject.rootDir}'\n"
-                + "./gradlew \$@\n")
-        gradlew.setExecutable(true)
-    }
-}
-
-tasks.getByName("build").dependsOn(packForXcode)

@@ -1,3 +1,5 @@
 package jp.rei.andou.kanjio
 
-expect fun platformText(): String
+import kotlinx.coroutines.CoroutineDispatcher
+
+expect fun mainDispatcher(): CoroutineDispatcher

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		64A0ABC7246141CA00794F8D /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A0ABC6246141CA00794F8D /* shared.framework */; };
-		64A0ABC8246141CA00794F8D /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 64A0ABC6246141CA00794F8D /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		64A0ABCC2461C14A00794F8D /* KanjiDb.db in Resources */ = {isa = PBXBuildFile; fileRef = 64A0ABCB2461C14A00794F8D /* KanjiDb.db */; };
+		6489541824A3E39B00675BC7 /* shared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6489541424A3B40E00675BC7 /* shared.framework */; };
+		6489541924A3E39B00675BC7 /* shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6489541424A3B40E00675BC7 /* shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6489542124A3EA0A00675BC7 /* KanjiDb.db in Resources */ = {isa = PBXBuildFile; fileRef = 6489542024A3EA0500675BC7 /* KanjiDb.db */; };
 		64AA716823C4FD83002B6645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AA716723C4FD83002B6645 /* AppDelegate.swift */; };
 		64AA716A23C4FD83002B6645 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AA716923C4FD83002B6645 /* SceneDelegate.swift */; };
 		64AA716C23C4FD83002B6645 /* KanjiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AA716B23C4FD83002B6645 /* KanjiListViewController.swift */; };
@@ -38,13 +38,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		64A0ABC9246141CA00794F8D /* Embed Frameworks */ = {
+		6489541A24A3E39B00675BC7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				64A0ABC8246141CA00794F8D /* shared.framework in Embed Frameworks */,
+				6489541924A3E39B00675BC7 /* shared.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,8 +52,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		64A0ABC6246141CA00794F8D /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = "../../shared/build/xcode-frameworks/shared.framework"; sourceTree = "<group>"; };
-		64A0ABCB2461C14A00794F8D /* KanjiDb.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = KanjiDb.db; path = ../../app/src/main/assets/KanjiDb.db; sourceTree = "<group>"; };
+		6489541424A3B40E00675BC7 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = "../../shared/build/fat-framework/shared.framework"; sourceTree = "<group>"; };
+		6489541B24A3E57100675BC7 /* KanjIO */ = {isa = PBXFileReference; lastKnownFileType = folder; path = KanjIO; sourceTree = "<group>"; };
+		6489542024A3EA0500675BC7 /* KanjiDb.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = KanjiDb.db; sourceTree = "<group>"; };
 		64AA716423C4FD83002B6645 /* KanjIO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KanjIO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64AA716723C4FD83002B6645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64AA716923C4FD83002B6645 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64A0ABC7246141CA00794F8D /* shared.framework in Frameworks */,
+				6489541824A3E39B00675BC7 /* shared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +100,7 @@
 		64A0ABC5246141C900794F8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				64A0ABC6246141CA00794F8D /* shared.framework */,
+				6489541424A3B40E00675BC7 /* shared.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -107,8 +108,9 @@
 		64AA715B23C4FD83002B6645 = {
 			isa = PBXGroup;
 			children = (
-				64A0ABCB2461C14A00794F8D /* KanjiDb.db */,
+				6489542024A3EA0500675BC7 /* KanjiDb.db */,
 				64AA716623C4FD83002B6645 /* KanjIO */,
+				6489541B24A3E57100675BC7 /* KanjIO */,
 				64AA717D23C4FD84002B6645 /* KanjIOTests */,
 				64AA718823C4FD84002B6645 /* KanjIOUITests */,
 				64AA716523C4FD83002B6645 /* Products */,
@@ -168,8 +170,7 @@
 				64AA716023C4FD83002B6645 /* Sources */,
 				64AA716123C4FD83002B6645 /* Frameworks */,
 				64AA716223C4FD83002B6645 /* Resources */,
-				64A0ABC9246141CA00794F8D /* Embed Frameworks */,
-				64A0ABCA246149C800794F8D /* Build Kotlin Native objc framework */,
+				6489541A24A3E39B00675BC7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -264,7 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64A0ABCC2461C14A00794F8D /* KanjiDb.db in Resources */,
+				6489542124A3EA0A00675BC7 /* KanjiDb.db in Resources */,
 				64AA717423C4FD84002B6645 /* LaunchScreen.storyboard in Resources */,
 				64AA717123C4FD84002B6645 /* Assets.xcassets in Resources */,
 				64AA716F23C4FD83002B6645 /* Main.storyboard in Resources */,
@@ -286,27 +287,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		64A0ABCA246149C800794F8D /* Build Kotlin Native objc framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Build Kotlin Native objc framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/../../shared/build/xcode-frameworks\"\n./gradlew :shared:packForXCode -PXCODE_CONFIGURATION=${CONFIGURATION}\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		64AA716023C4FD83002B6645 /* Sources */ = {
@@ -489,7 +469,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../shared/build/xcode-frameworks";
+				DEVELOPMENT_ASSET_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../shared/build/fat-framework";
 				INFOPLIST_FILE = KanjIO/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -508,7 +489,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../shared/build/xcode-frameworks";
+				DEVELOPMENT_ASSET_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../shared/build/fat-framework";
 				INFOPLIST_FILE = KanjIO/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
