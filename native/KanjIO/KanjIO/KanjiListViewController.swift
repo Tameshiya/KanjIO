@@ -1,12 +1,17 @@
 import UIKit
 import shared
 
-class KanjiListViewController: UIViewController {
+class KanjiListViewController: UIViewController, KanjiListView, UITableViewDelegate {
     
-    var kanjiPresenter: KanjiPresenter!
+    private let kanjiTableView = UITableView()
+    private var safeArea: UILayoutGuide!
+    private var kanjiPresenter: KanjiPresenter!
+    //todo privateにする必要があるけど、あらゆる手段を調べる。
+    var kanjiList = [Kanji_]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //todo move to common part
         let defaults = UserDefaults.standard
         let isPreloaded = defaults.bool(forKey: "isPreloaded")
         if !isPreloaded {
@@ -15,15 +20,41 @@ class KanjiListViewController: UIViewController {
         }
         let db: KanjiDatabase = KanjiDatabase()
         db.defaultDriver()
+        view.backgroundColor = .white
+        safeArea = view.layoutMarginsGuide
+        setupTableView()
         let kanjiQueries: KanjiQueries = db.instance.kanjiQueries
         let kanjiRepository: KanjiRepository = JLPTKanjiRepository(kanjiGroup: KanjiGroup.jlpt, kanjiQueries: kanjiQueries)
         let kanjiInteractor = KanjiInteractorImpl(kanjiRepository: kanjiRepository)
         self.kanjiPresenter = KanjiPresenter(interactor: kanjiInteractor)
-        kanjiPresenter.attachView(view: Test(vc: self))
+        kanjiPresenter.attachView(view: self)
         kanjiPresenter.startFlow()
-        //todo self.title = "EconomyStrategy"
+        //self.title = "EconomyStrategy"
     }
     
+    func setupTableView() {
+        view.addSubview(kanjiTableView)
+        //todo どうやって違うファイルに移せるのかを考えてみること。
+        kanjiTableView.dataSource = self
+        kanjiTableView.delegate = self
+        kanjiTableView.translatesAutoresizingMaskIntoConstraints = false
+        kanjiTableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
+        kanjiTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        kanjiTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        kanjiTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        kanjiTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
+    func setTitle(currentKanjiGroup: KanjiGroup) {
+        title = currentKanjiGroup.name
+    }
+    
+    func showList(list: [Kanji_]) {
+        kanjiList = list
+        kanjiTableView.reloadData()
+    }
+    
+    //todo to common layer
     func prepopulateDbBitwicely(dbName: String) {
         let bundlePath = Bundle.main.path(forResource: "KanjiDb", ofType: ".db")
         
@@ -50,22 +81,5 @@ class KanjiListViewController: UIViewController {
                 print("\n",error)
             }
         }
-    }
-}
-
-class Test: KanjiListView {
-    
-    let vc: KanjiListViewController
-    
-    init(vc: KanjiListViewController) {
-        self.vc = vc
-    }
-    
-    func setTitle(currentKanjiGroup: KanjiGroup) {
-        vc.title = currentKanjiGroup.name
-    }
-    
-    func showList(list: [Kanji_]) {
-        print(list)
     }
 }

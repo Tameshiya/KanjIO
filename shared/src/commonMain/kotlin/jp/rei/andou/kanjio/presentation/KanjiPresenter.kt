@@ -4,6 +4,7 @@ import jp.rei.andou.kanjio.data.KanjiGroup
 import jp.rei.andou.kanjio.domain.KanjiInteractor
 import jp.rei.andou.kanjio.mainDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -15,6 +16,7 @@ class KanjiPresenter constructor(
     private val interactor: KanjiInteractor
 ) : CommonPresenter<KanjiListView>(), CoroutineScope {
 
+    @InternalCoroutinesApi
     override val coroutineContext: CoroutineContext = mainDispatcher() //todo + exceptionHandler
 
     fun startFlow() {
