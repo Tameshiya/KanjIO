@@ -9,8 +9,13 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
     //todo privateにする必要があるけど、あらゆる手段を調べる。
     var kanjiList = [Kanji_]()
     
+    let levels = ["N5", "N4", "N3", "N2", "N1"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupSelectors()
+        
         //todo move to common part
         let defaults = UserDefaults.standard
         let isPreloaded = defaults.bool(forKey: "isPreloaded")
@@ -30,19 +35,6 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
         kanjiPresenter.attachView(view: self)
         kanjiPresenter.startFlow()
         //self.title = "EconomyStrategy"
-    }
-    
-    func setupTableView() {
-        view.addSubview(kanjiTableView)
-        //todo どうやって違うファイルに移せるのかを考えてみること。
-        kanjiTableView.dataSource = self
-        kanjiTableView.delegate = self
-        kanjiTableView.translatesAutoresizingMaskIntoConstraints = false
-        kanjiTableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
-        kanjiTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        kanjiTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        kanjiTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        kanjiTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     func setTitle(currentKanjiGroup: KanjiGroup) {
@@ -81,5 +73,76 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
                 print("\n",error)
             }
         }
+    }
+    
+    @objc private func selectLevel() {
+        setupLevelsPickerView()
+    }
+    
+    @objc private func selectExam() {
+        print("select exam")
+    }
+    
+    private func setupTableView() {
+        view.addSubview(kanjiTableView)
+        //todo どうやって違うファイルに移せるのかを考えてみること。
+        kanjiTableView.dataSource = self
+        kanjiTableView.delegate = self
+        kanjiTableView.translatesAutoresizingMaskIntoConstraints = false
+        kanjiTableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
+        kanjiTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        kanjiTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        kanjiTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        kanjiTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
+    private func setupLevelsPickerView() {
+        //todo custom layout
+        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 300))
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        let editRadiusAlert = UIAlertController(title: "Choose level", message: "", preferredStyle: UIAlertController.Style.alert)
+        let height:NSLayoutConstraint = NSLayoutConstraint(
+            item: editRadiusAlert.view!,
+            attribute: NSLayoutConstraint.Attribute.height,
+            relatedBy: NSLayoutConstraint.Relation.equal,
+            toItem: nil,
+            attribute: NSLayoutConstraint.Attribute.notAnAttribute,
+            multiplier: 1,
+            constant: 350
+        )
+        editRadiusAlert.view.addConstraint(height);
+        editRadiusAlert.view.addSubview(pickerView)
+        editRadiusAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            let lvlIndex = pickerView.selectedRow(inComponent: 0)
+            self.kanjiPresenter.changeNewKanjiGroupLevel(level: Int32(5 - lvlIndex))
+        }))
+        editRadiusAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(editRadiusAlert, animated: true)
+    }
+    
+    private func setupSelectors() {
+        let lvlSelector = UIBarButtonItem(image: UIImage(systemName: "list.number"), style: .plain, target: self, action: #selector(selectLevel))
+        let examSelector = UIBarButtonItem(
+            image: UIImage(systemName: "slider.horizontal.3"),
+            style: .plain,
+            target: self,
+            action: #selector(selectExam)
+        )
+        navigationItem.rightBarButtonItems = [examSelector, lvlSelector]
+    }
+}
+
+extension KanjiListViewController : UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return levels.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return levels[row]
     }
 }
