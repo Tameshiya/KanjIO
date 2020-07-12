@@ -1,65 +1,8 @@
-CREATE TABLE IF NOT EXISTS kanji_sequence (
-    code INTEGER, 
-    jlpt_level INTEGER,
-    jlpt_sequence INTEGER,
-    jlpt_revised_level INTEGER,
-    jlpt_revised_sequence INTEGER,
-    jouyou_level INTEGER,
-    jouyou_sequence INTEGER,
-    jouyou_revised_level INTEGER,
-    jouyou_revised_sequence INTEGER,
-    heisig_level INTEGER,
-    heisig_sequence INTEGER,
-    heisig_revised_level INTEGER,
-    heisig_revised_sequence INTEGER,
-    kanken_level INTEGER,
-    kanken_sequence INTEGER,
-    kklc_level INTEGER,
-    kklc_sequence INTEGER,
-    freq_level INTEGER,
-    freq_sequence INTEGER,
-    kic_level INTEGER,
-    kic_sequence INTEGER,
-    PRIMARY KEY(code)
+CREATE TABLE IF NOT EXISTS kanji_sequence(
+	code INTEGER NOT NULL,
+    level_id INTEGER NOT NULL,
+	sequence INTEGER NOT NULL,
+	PRIMARY KEY (code, level_id),
+	FOREIGN KEY (code) REFERENCES kanji(code) ON DELETE CASCADE,
+    FOREIGN KEY (level_id) REFERENCES groups_levels(id) ON DELETE CASCADE
 );
-
-CREATE INDEX IF NOT EXISTS jlpt_revised_level_idx ON kanji_sequence (jlpt_revised_level);
-CREATE INDEX IF NOT EXISTS kanji_sequence_kic_sequence_idx ON kanji_sequence (kic_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_heisig_revised_sequence_idx ON kanji_sequence (heisig_revised_sequence);
-CREATE INDEX IF NOT EXISTS jlpt_level_idx ON kanji_sequence (jlpt_level);
-CREATE UNIQUE INDEX IF NOT EXISTS kklc_sequence_idx ON kanji_sequence (kklc_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS heisig_sequence_idx ON kanji_sequence (heisig_sequence);
-CREATE INDEX IF NOT EXISTS freq_level_idx ON kanji_sequence (freq_level);
-CREATE UNIQUE INDEX IF NOT EXISTS heisig_revised_sequence_idx ON kanji_sequence (heisig_revised_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_heisig_sequence_idx ON kanji_sequence (heisig_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS jouyou_revised_sequence_idx ON kanji_sequence (jouyou_revised_sequence);
-CREATE INDEX IF NOT EXISTS kanken_level_idx ON kanji_sequence (kanken_level);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_jouyou_sequence_idx ON kanji_sequence (jouyou_sequence);
-CREATE INDEX IF NOT EXISTS kanji_sequence_kklc_level_idx ON kanji_sequence (kklc_level);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_freq_sequence_idx ON kanji_sequence (freq_sequence);
-CREATE INDEX IF NOT EXISTS kanji_sequence_heisig_level_idx ON kanji_sequence (heisig_level);
-CREATE UNIQUE INDEX IF NOT EXISTS freq_sequence_idx ON kanji_sequence (freq_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS kic_sequence_idx ON kanji_sequence (kic_sequence);
-CREATE INDEX IF NOT EXISTS kanji_sequence_jlpt_revised_level_idx ON kanji_sequence (jlpt_revised_level);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_jouyou_revised_sequence_idx ON kanji_sequence (jouyou_revised_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS jlpt_sequence_idx ON kanji_sequence (jlpt_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS jlpt_revised_sequence_idx ON kanji_sequence (jlpt_revised_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS kanken_sequence_idx ON kanji_sequence (kanken_sequence);
-CREATE INDEX IF NOT EXISTS kanji_sequence_kic_level_idx ON kanji_sequence (kic_level);
-CREATE INDEX IF NOT EXISTS kanji_sequence_jouyou_revised_level_idx ON kanji_sequence (jouyou_revised_level);
-CREATE INDEX IF NOT EXISTS heisig_level_idx ON kanji_sequence (heisig_level);
-CREATE INDEX IF NOT EXISTS kklc_level_idx ON kanji_sequence (kklc_level);
-CREATE INDEX IF NOT EXISTS kanji_sequence_kanken_level_idx ON kanji_sequence (kanken_level);
-CREATE INDEX IF NOT EXISTS jouyou_level_idx ON kanji_sequence (jouyou_level);
-CREATE INDEX IF NOT EXISTS jouyou_revised_level_idx ON kanji_sequence (jouyou_revised_level);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_jlpt_revised_sequence_idx ON kanji_sequence (jlpt_revised_sequence);
-CREATE INDEX IF NOT EXISTS kanji_sequence_jlpt_level_idx ON kanji_sequence (jlpt_level);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_jlpt_sequence_idx ON kanji_sequence (jlpt_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_kanken_sequence_idx ON kanji_sequence (kanken_sequence);
-CREATE UNIQUE INDEX IF NOT EXISTS kanji_sequence_kklc_sequence_idx ON kanji_sequence (kklc_sequence);
-CREATE INDEX IF NOT EXISTS kanji_sequence_freq_level_idx ON kanji_sequence (freq_level);
-CREATE INDEX IF NOT EXISTS kanji_sequence_jouyou_level_idx ON kanji_sequence (jouyou_level);
-CREATE INDEX IF NOT EXISTS heisig_revised_level_idx ON kanji_sequence (heisig_revised_level);
-CREATE INDEX IF NOT EXISTS kanji_sequence_heisig_revised_level_idx ON kanji_sequence (heisig_revised_level);
-CREATE INDEX IF NOT EXISTS kic_level_idx ON kanji_sequence (kic_level);
-CREATE UNIQUE INDEX IF NOT EXISTS jouyou_sequence_idx ON kanji_sequence (jouyou_sequence);

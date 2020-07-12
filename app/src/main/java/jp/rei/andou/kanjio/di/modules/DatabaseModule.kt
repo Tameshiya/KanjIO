@@ -7,6 +7,8 @@ import dagger.Module
 import dagger.Provides
 import jp.rei.andou.kanjio.KanjiDb
 import jp.rei.andou.kanjio.data.KanjiDatabase
+import jp.rei.andou.kanjio.entities.GroupsLevelsQueries
+import jp.rei.andou.kanjio.entities.KanjiGroupsQueries
 import jp.rei.andou.kanjio.entities.KanjiQueries
 import java.io.DataInputStream
 import java.io.File
@@ -29,8 +31,20 @@ class DatabaseModule(context: Context) {
 
     @Provides
     @Singleton
-    fun provideDaoFactory(): KanjiQueries {
+    fun provideKanjiDao(): KanjiQueries {
         return kanjiDatabase.instance.kanjiQueries
+    }
+
+    @Provides
+    @Singleton
+    fun provideKanjiGroupsDao(): KanjiGroupsQueries {
+        return kanjiDatabase.instance.kanjiGroupsQueries
+    }
+
+    @Provides
+    @Singleton
+    fun provideKanjiLevelsDao(): GroupsLevelsQueries {
+        return kanjiDatabase.instance.groupsLevelsQueries
     }
 
     /**

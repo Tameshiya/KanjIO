@@ -18,6 +18,7 @@ class App : Application() {
     }
 
     private fun buildComponent(): AppComponent {
+        //todo move to koin
         return DaggerAppComponent.builder()
             .preferencesModule(PreferencesModule(this))
             .kanjiModule(KanjiModule())

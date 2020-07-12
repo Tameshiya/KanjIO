@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.App
 import jp.rei.andou.kanjio.R
-import jp.rei.andou.kanjio.data.KanjiGroup
+import jp.rei.andou.kanjio.data.KanjiGroupLevel
 import jp.rei.andou.kanjio.presentation.view.KanjiFilterAdapter
+import jp.rei.andou.kanjio.presentation.view.KanjiGroupViewImpl
 import jp.rei.andou.kanjio.presentation.view.KanjiListViewImpl
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_list.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +25,8 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     @Inject
     lateinit var kanjiPresenter: KanjiPresenter
+    @Inject
+    lateinit var kanjiGroupsPresenter: KanjiGroupsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +36,16 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         setSupportActionBar(toolbar)
 
-        kanjiPresenter.attachView(KanjiListViewImpl(toolbar, kanji_list))
-        launch {
-            kanjiPresenter.startFlow()
-        }
-    }
+        val kanjiGroupView: KanjiGroupView = KanjiGroupViewImpl(layoutInflater, kanjiGroupsPresenter)
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel("Activity has been destroyed")
+        kanjiGroupsPresenter.attachView(kanjiGroupView)
+        //todo ここは賢いすぎる
+        kanjiGroupsPresenter.onKanjiGroupLevelSelectedListener = { kanjiGroupLevel ->
+            kanjiPresenter.renderCurrentKanjiList(kanjiGroupLevel)
+        }
+
+        kanjiPresenter.attachView(KanjiListViewImpl(toolbar, kanji_list))
+        kanjiPresenter.startFlow()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -53,55 +56,9 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.groups -> {
-                //todo rewrite dialogs to mvp approach
-                showGroupsDialog()
-            }
-
-            R.id.levels -> launch {
-                kanjiPresenter.getKanjiGroupLevels()
-                    .also { maxLevel -> showLevelsDialog(maxLevel) }
+                kanjiGroupsPresenter.showKanjiGroupsView()
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun showLevelsDialog(maxLevel: Int) {
-        val dialogListView: View = layoutInflater.inflate(R.layout.dialog_list, null)
-        val levels: RecyclerView = dialogListView.list
-        levels.layoutManager = LinearLayoutManager(this@KanjiListActivity)
-        val dialog = AlertDialog.Builder(this@KanjiListActivity).setView(dialogListView).create()
-        val kanjiGroupLevels = (1 until maxLevel + 1).map { it.toString() }
-        levels.adapter = KanjiFilterAdapter(
-            content = kanjiGroupLevels,
-            titleRenderer = { position -> kanjiGroupLevels[position] },
-            onGroupClickListener = {
-                launch {
-                    kanjiPresenter.changeNewKanjiGroupLevel(it.toInt())
-                }
-                dialog.dismiss()
-            }
-        )
-        //todo fix window leaking
-        dialog.show()
-    }
-
-    private fun showGroupsDialog() {
-        val dialogListView: View = layoutInflater.inflate(R.layout.dialog_list, null)
-        val groups: RecyclerView = dialogListView.list
-        groups.layoutManager = LinearLayoutManager(this)
-        val dialog = AlertDialog.Builder(this).setView(dialogListView).create()
-        val kanjiGroups = KanjiGroup.values().toList()
-        groups.adapter =
-            KanjiFilterAdapter(
-                content = kanjiGroups,
-                titleRenderer = { position -> kanjiGroups[position].title },
-                onGroupClickListener = {
-                    launch {
-                        kanjiPresenter.setNewKanjiGroup(it)
-                    }
-                    dialog.dismiss()
-                })
-        //todo fix window leaking
-        dialog.show()
     }
 }

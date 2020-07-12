@@ -6,10 +6,20 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
     private let kanjiTableView = UITableView()
     private var safeArea: UILayoutGuide!
     private var kanjiPresenter: KanjiPresenter!
-    //todo privateにする必要があるけど、あらゆる手段を調べる。
+    //todo privateにする必要があるけど、手段を調べる。
     var kanjiList = [Kanji_]()
     
     let levels = ["N5", "N4", "N3", "N2", "N1"]
+    
+    let exams = [
+        KanjiGroup.jlpt, KanjiGroup.revisedJlpt, KanjiGroup.freq, KanjiGroup.heisig, KanjiGroup.revisedHeisig, KanjiGroup.jouyou, KanjiGroup.jouyouRevised, KanjiGroup.kanken, KanjiGroup.kic, KanjiGroup.kklc
+    ]
+    let examLabels = [
+        KanjiGroup.jlpt.name, KanjiGroup.revisedJlpt.name, KanjiGroup.freq.name, KanjiGroup.heisig.name, KanjiGroup.revisedHeisig.name, KanjiGroup.jouyou.name, KanjiGroup.jouyouRevised.name, KanjiGroup.kanken.name, KanjiGroup.kic.name, KanjiGroup.kklc.name
+    ]
+
+    //FIXME!!!!!!! side effect and code smell
+    var pickerLabels: [String]? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,11 +86,13 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
     }
     
     @objc private func selectLevel() {
-        setupLevelsPickerView()
+        pickerLabels = levels
+        showLevelPickerView()
     }
     
     @objc private func selectExam() {
-        print("select exam")
+        pickerLabels = examLabels
+        showExamPickerView()
     }
     
     private func setupTableView() {
@@ -96,7 +108,8 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
         kanjiTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
-    private func setupLevelsPickerView() {
+    //todo move to different class
+    private func showLevelPickerView() {
         //todo custom layout
         let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 300))
         pickerView.delegate = self
@@ -121,6 +134,32 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
         self.present(editRadiusAlert, animated: true)
     }
     
+    //todo move to different class
+    private func showExamPickerView() {
+        //todo custom layout
+        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 300))
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        let editRadiusAlert = UIAlertController(title: "Choose exam", message: "", preferredStyle: UIAlertController.Style.alert)
+        let height:NSLayoutConstraint = NSLayoutConstraint(
+            item: editRadiusAlert.view!,
+            attribute: NSLayoutConstraint.Attribute.height,
+            relatedBy: NSLayoutConstraint.Relation.equal,
+            toItem: nil,
+            attribute: NSLayoutConstraint.Attribute.notAnAttribute,
+            multiplier: 1,
+            constant: 350
+        )
+        editRadiusAlert.view.addConstraint(height);
+        editRadiusAlert.view.addSubview(pickerView)
+        editRadiusAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            let examIndex = pickerView.selectedRow(inComponent: 0)
+            self.kanjiPresenter.setNewKanjiGroup(kanjiGroup: self.exams[examIndex])
+        }))
+        editRadiusAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(editRadiusAlert, animated: true)
+    }
+    
     private func setupSelectors() {
         let lvlSelector = UIBarButtonItem(image: UIImage(systemName: "list.number"), style: .plain, target: self, action: #selector(selectLevel))
         let examSelector = UIBarButtonItem(
@@ -139,10 +178,10 @@ extension KanjiListViewController : UIPickerViewDataSource, UIPickerViewDelegate
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return levels.count
+        return pickerLabels?.count ?? 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return levels[row]
+        return pickerLabels?[row] ?? "?"
     }
 }

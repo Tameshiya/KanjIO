@@ -90,6 +90,7 @@ kotlin {
 
         binaries.framework {
             //export("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.2")
+            freeCompilerArgs += "-Xobjc-generics"
             export("com.squareup.sqldelight:native-driver:1.3.0")
             baseName = frameworkName
         }

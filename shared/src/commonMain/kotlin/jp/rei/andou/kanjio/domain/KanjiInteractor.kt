@@ -2,12 +2,14 @@ package jp.rei.andou.kanjio.domain
 
 import jp.rei.andou.kanjio.data.Kanji
 import jp.rei.andou.kanjio.data.KanjiGroup
+import jp.rei.andou.kanjio.data.KanjiGroupLevel
 
+//UseCaseずつに分ける。
 interface KanjiInteractor {
     
     fun getKanjiListByLevel(level: Int): List<Kanji>
 
-    fun getCurrentKanjiGroup(): KanjiGroup
+    fun getGroupsList(): List<KanjiGroup>
 
-    fun getCurrentKanjiGroupLevel(): Int
+    fun getGroupsAssociatedLevelsList(): Map<KanjiGroup, List<KanjiGroupLevel>>
 }

@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import jp.rei.andou.kanjio.data.KanjiGroup
+import jp.rei.andou.kanjio.di.qualifiers.KanjiGroup
 
 private const val KANJI_PREFS = "kanji_prefs"
 private const val KANJI_SET_PREFS_KEY = "kanji_set_prefs_key"
@@ -19,9 +19,9 @@ class PreferencesModule(private val context: Context) {
     }
 
     @Provides
-    fun provideKanjiSet(sharedPreferences: SharedPreferences): KanjiGroup {
-        val name: String = sharedPreferences.getString(KANJI_SET_PREFS_KEY, KanjiGroup.JLPT.name)!!
-        return KanjiGroup.valueOf(name)
+    @KanjiGroup
+    fun provideKanjiGroupId(sharedPreferences: SharedPreferences): Int? {
+        return sharedPreferences.getInt(KANJI_SET_PREFS_KEY, -1).takeIf { it != -1 }
     }
 
 }

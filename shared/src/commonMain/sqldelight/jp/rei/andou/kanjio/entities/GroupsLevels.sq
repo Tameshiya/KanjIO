@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS groups_levels(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	level INTEGER NOT NULL,
+	group_id INTEGER NOT NULL,
+	name TEXT NOT NULL UNIQUE,
+	UNIQUE (level, group_id),
+	FOREIGN KEY (group_id) REFERENCES kanji_groups(id) ON DELETE CASCADE
+);
+
+allLevels:
+SELECT * FROM groups_levels;
+
+groupLevels:
+SELECT * FROM groups_levels WHERE group_id = ?;
+
+defaultGroupLevel:
+SELECT * FROM groups_levels WHERE group_id = (SELECT MIN(level) FROM groups_levels) ORDER BY level DESC LIMIT 1;

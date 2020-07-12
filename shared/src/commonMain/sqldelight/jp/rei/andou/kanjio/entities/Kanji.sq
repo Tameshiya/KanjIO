@@ -24,8 +24,5 @@ CREATE INDEX IF NOT EXISTS stroke_count_idx ON kanji (stroke_count);
 
 getKanjiListByLevel:
 SELECT k.* FROM kanji k
-JOIN kanji_sequence ks ON k.code = ks.code AND ks.jlpt_level = ?
-ORDER BY ks.jlpt_revised_sequence;
-
-getKanjiGroupGreatestLevel:
-SELECT MAX(jlpt_level) FROM kanji_sequence;
+JOIN kanji_sequence ks ON k.code = ks.code AND ks.level_id = ?
+ORDER BY ks.sequence;

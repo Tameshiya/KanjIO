@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS kanji_groups (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT NOT NULL UNIQUE,
+	en_name TEXT,
+	description TEXT NOT NULL
+);
+
+getGroups:
+SELECT * FROM kanji_groups;
+
+getGroupById:
+SELECT * FROM kanji_groups WHERE id = ?;

@@ -4,12 +4,6 @@
 
     <item
             android:id="@+id/groups"
-            android:icon="@drawable/ic_filter_list"
-            android:title="groups"
-            app:showAsAction="always" />
-
-    <item
-            android:id="@+id/levels"
             android:icon="@drawable/ic_levels"
             android:title="groups"
             app:showAsAction="always" />
