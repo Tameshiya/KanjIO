@@ -3,22 +3,14 @@ package jp.rei.andou.kanjio.presentation
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.App
 import jp.rei.andou.kanjio.R
-import jp.rei.andou.kanjio.data.KanjiGroupLevel
-import jp.rei.andou.kanjio.presentation.view.KanjiFilterAdapter
 import jp.rei.andou.kanjio.presentation.view.KanjiGroupViewImpl
 import jp.rei.andou.kanjio.presentation.view.KanjiListViewImpl
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_list.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -36,10 +28,14 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         setSupportActionBar(toolbar)
 
-        val kanjiGroupView: KanjiGroupView = KanjiGroupViewImpl(layoutInflater, kanjiGroupsPresenter)
+        val kanjiGroupView: KanjiGroupView = KanjiGroupViewImpl(
+            layoutInflater,
+            kanjiGroupsPresenter,
+            kanjiPresenter
+        )
 
         kanjiGroupsPresenter.attachView(kanjiGroupView)
-        //todo ここは賢いすぎる
+        //todo ここは賢すぎる
         kanjiGroupsPresenter.onKanjiGroupLevelSelectedListener = { kanjiGroupLevel ->
             kanjiPresenter.renderCurrentKanjiList(kanjiGroupLevel)
         }
