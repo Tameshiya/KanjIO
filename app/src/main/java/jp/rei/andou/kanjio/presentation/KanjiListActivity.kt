@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import jp.rei.andou.kanjio.App
 import jp.rei.andou.kanjio.R
+import jp.rei.andou.kanjio.data.KanjiGroupLevel
 import jp.rei.andou.kanjio.presentation.view.KanjiGroupViewImpl
 import jp.rei.andou.kanjio.presentation.view.KanjiListViewImpl
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,15 +29,8 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         setSupportActionBar(toolbar)
 
-        val kanjiGroupView: KanjiGroupView = KanjiGroupViewImpl(
-            layoutInflater,
-            kanjiGroupsPresenter,
-            kanjiPresenter
-        )
-
-        kanjiGroupsPresenter.attachView(kanjiGroupView)
-        //todo ここは賢すぎる
-        kanjiGroupsPresenter.onKanjiGroupLevelSelectedListener = { kanjiGroupLevel ->
+        //todo private val kanjiGroupLevelChannel: ReceiveChannel<KanjiGroupLevel>にて片方は情報を発信し、漢字一覧のRENDERERが受けるのはいかが？
+        kanjiGroupsPresenter.onKanjiGroupLevelSelectedListener = { kanjiGroupLevel: KanjiGroupLevel ->
             kanjiPresenter.renderCurrentKanjiList(kanjiGroupLevel)
         }
 
@@ -51,10 +45,12 @@ class KanjiListActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.groups -> {
-                kanjiGroupsPresenter.showKanjiGroupsView()
-            }
+            R.id.groups -> createKanjiGroupView()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun createKanjiGroupView(): KanjiGroupView {
+        return KanjiGroupViewImpl(layoutInflater, toolbar, kanjiGroupsPresenter)
     }
 }

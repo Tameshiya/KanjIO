@@ -5,6 +5,7 @@ import jp.rei.andou.kanjio.domain.KanjiInteractor
 import jp.rei.andou.kanjio.domain.UserInteractor
 import jp.rei.andou.kanjio.mainDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -17,6 +18,7 @@ class KanjiPresenter constructor(
     private val userInteractor: UserInteractor
 ) : CommonPresenter<KanjiListView>(), CoroutineScope {
 
+    @InternalCoroutinesApi
     override val coroutineContext: CoroutineContext = mainDispatcher() //todo + exceptionHandler
 
     fun startFlow() {
@@ -27,10 +29,7 @@ class KanjiPresenter constructor(
     }
 
     fun renderCurrentKanjiList(kanjiLevel: KanjiGroupLevel) {
-        //todo move to different SelectorDialogPresenter
-        //view?.setTitle(kanjiGroup ?: kanjiInteractor.getCurrentKanjiGroup())
         kanjiInteractor.getKanjiListByLevel(kanjiLevel.levelId)
             .also { list -> view?.showList(list) }
     }
-
 }
