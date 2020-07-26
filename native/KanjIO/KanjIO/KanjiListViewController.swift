@@ -10,13 +10,6 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
     //todo privateにする必要があるけど、手段を調べる。
     var kanjiList = [Kanji_]()
     
-    /*let exams = [
-        KanjiGroup.jlpt, KanjiGroup.revisedJlpt, KanjiGroup.freq, KanjiGroup.heisig, KanjiGroup.revisedHeisig, KanjiGroup.jouyou, KanjiGroup.jouyouRevised, KanjiGroup.kanken, KanjiGroup.kic, KanjiGroup.kklc
-    ]
-    let examLabels = [
-        KanjiGroup.jlpt.name, KanjiGroup.revisedJlpt.name, KanjiGroup.freq.name, KanjiGroup.heisig.name, KanjiGroup.revisedHeisig.name, KanjiGroup.jouyou.name, KanjiGroup.jouyouRevised.name, KanjiGroup.kanken.name, KanjiGroup.kic.name, KanjiGroup.kklc.name
-    ]*/
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,8 +47,8 @@ class KanjiListViewController: UIViewController, KanjiListView, UITableViewDeleg
         kanjiPresenter.startFlow()
     }
     
-    func setTitle(currentKanjiGroup: KanjiGroup) {
-        title = currentKanjiGroup.title
+    func setTitle(kanjiGroupTitle: String) {
+        title = kanjiGroupTitle
     }
     
     func showList(list: [Kanji_]) {

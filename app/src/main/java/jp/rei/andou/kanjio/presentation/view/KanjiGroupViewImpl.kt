@@ -10,7 +10,6 @@ import jp.rei.andou.kanjio.presentation.KanjiGroupView
 import jp.rei.andou.kanjio.presentation.KanjiGroupsPresenter
 import kotlinx.android.synthetic.main.dialog_list.view.*
 
-//todo rewrite to custom view
 //todo separate logic to presenter
 class KanjiGroupViewImpl(
     layoutInflater: LayoutInflater,
@@ -56,10 +55,6 @@ class KanjiGroupViewImpl(
     }
 
     override fun updateLevels(kanjiLevelsLabels: List<String>) = levels.setup(kanjiLevelsLabels)
-
-    override fun updateTitle(kanjiGroupLabel: String) {
-        toolbar.title = kanjiGroupLabel
-    }
 
     private fun NumberPicker.setup(values: List<String>) {
         displayedValues = null

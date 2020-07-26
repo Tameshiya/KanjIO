@@ -8,7 +8,4 @@ interface KanjiGroupView : CommonView {
     )
 
     fun updateLevels(kanjiLevelsLabels: List<String>)
-
-    fun updateTitle(kanjiGroupTitle: String)
-
 }

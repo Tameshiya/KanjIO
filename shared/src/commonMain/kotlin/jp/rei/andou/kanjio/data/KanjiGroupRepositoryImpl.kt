@@ -1,8 +1,8 @@
 package jp.rei.andou.kanjio.data
 
 import jp.rei.andou.kanjio.entities.GroupsLevelsQueries
-import jp.rei.andou.kanjio.entities.Groups_levels as DBGroupLevel
 import jp.rei.andou.kanjio.entities.KanjiGroupsQueries
+import jp.rei.andou.kanjio.entities.Groups_levels as DBGroupLevel
 import jp.rei.andou.kanjio.entities.Kanji_groups as DBKanjiGroup
 
 class KanjiGroupRepositoryImpl(
@@ -11,7 +11,7 @@ class KanjiGroupRepositoryImpl(
 ) : KanjiGroupRepository {
 
     override fun getKanjiGroupsList(): List<KanjiGroup> {
-        return kanjiGroupsQueries.getGroups().executeAsList().map{ it.toKanjiGroup() }
+        return kanjiGroupsQueries.getGroups().executeAsList().map { it.toKanjiGroup() }
     }
 
     override fun getKanjiGroupLevelsList(groupId: Int): List<KanjiGroupLevel> {

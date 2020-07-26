@@ -1,5 +1,6 @@
 package jp.rei.andou.kanjio.presentation
 
+import jp.rei.andou.kanjio.data.KanjiGroup
 import jp.rei.andou.kanjio.data.KanjiGroupLevel
 import jp.rei.andou.kanjio.domain.KanjiInteractor
 import jp.rei.andou.kanjio.domain.UserInteractor
@@ -29,7 +30,17 @@ class KanjiPresenter constructor(
     }
 
     fun renderCurrentKanjiList(kanjiLevel: KanjiGroupLevel) {
+        launch {
+            kanjiInteractor.getGroupsList()
+                .find { it.id == kanjiLevel.groupId }
+                ?.let { currentKanjiGroup -> formKanjiGroupTitle(currentKanjiGroup, kanjiLevel) }
+                ?.let { kanjiGroupTitle -> view?.setTitle(kanjiGroupTitle) }
+        }
         kanjiInteractor.getKanjiListByLevel(kanjiLevel.levelId)
             .also { list -> view?.showList(list) }
+    }
+
+    private fun formKanjiGroupTitle(kanjiGroup: KanjiGroup, kanjiGroupLevel: KanjiGroupLevel): String {
+        return "${kanjiGroup.title} (${kanjiGroupLevel.name})"
     }
 }

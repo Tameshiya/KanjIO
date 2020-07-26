@@ -4,7 +4,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.data.Kanji
-import jp.rei.andou.kanjio.data.KanjiGroup
 import jp.rei.andou.kanjio.presentation.KanjiListView
 import jp.rei.andou.kanjio.presentation.adapter.KanjiAdapter
 
@@ -25,7 +24,7 @@ class KanjiListViewImpl(
         kanjiListAdapter.updateKanji(list)
     }
 
-    override fun setTitle(currentKanjiGroup: KanjiGroup) {
-        toolbar.title = currentKanjiGroup.title
+    override fun setTitle(kanjiGroupTitle: String) {
+        toolbar.title = kanjiGroupTitle
     }
 }

@@ -45,7 +45,6 @@ class KanjiGroupsPresenter(
             ?.getOrNull(levelPosition) ?: return
         selectKanjiGroupLevel(kanjiGroupLevel)
         onKanjiGroupLevelSelectedListener?.invoke(kanjiGroupLevel)
-        view?.updateTitle(getTitle(selectedGroup, kanjiGroupLevel))
     }
 
     fun renderKanjiGroupsView() {
@@ -53,17 +52,6 @@ class KanjiGroupsPresenter(
             kanjiGroupsModel.kanjiGroups.map { it.title },
             kanjiGroupsModel.getCurrentKanjiGroupLevel()?.map { it.name } ?: emptyList()
         )
-        view?.updateTitle(
-            getTitle(
-                kanjiGroupsModel.currentKanjiGroup ?: return,
-                kanjiGroupsModel.getCurrentKanjiGroupLevel()?.firstOrNull() ?: return
-            )
-        )
-    }
-
-    private fun getTitle(kanjiGroup: KanjiGroup, kanjiGroupLevel: KanjiGroupLevel): String {
-        //todo resources????
-        return "${kanjiGroup.title} (${kanjiGroupLevel.name})"
     }
 
     private fun selectKanjiGroupLevel(kanjiGroupLevel: KanjiGroupLevel) = launch {
