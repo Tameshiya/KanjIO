@@ -13,16 +13,24 @@ sqldelight {
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion = "29.0.2"
+    compileSdkVersion(30)
+    buildToolsVersion = "30.0.2"
     defaultConfig {
         minSdkVersion(21)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
+        targetSdkVersion(30)
     }
     sourceSets.all {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    }
+
+    //workaround for https://youtrack.jetbrains.com/issue/KT-43944
+    configurations {
+        create("androidTestApi")
+        create("androidTestDebugApi")
+        create("androidTestReleaseApi")
+        create("testApi")
+        create("testDebugApi")
+        create("testReleaseApi")
     }
 }
 
@@ -46,27 +54,23 @@ kotlin {
 
     sourceSets.all {
         languageSettings.apply {
-            languageVersion = "1.3" // possible values: '1.0', '1.1', '1.2', '1.3'
-            apiVersion = "1.3" // possible values: '1.0', '1.1', '1.2', '1.3'
-            enableLanguageFeature("InlineClasses") // language feature name
+            languageVersion = "1.5"
+            apiVersion = "1.5"
             useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes") // annotation FQ-name
             progressiveMode = true // false by default
         }
     }
 
     sourceSets["commonMain"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
         implementation("com.squareup.sqldelight:coroutines-extensions:1.3.0")
     }
 
     sourceSets["androidMain"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib")
-        implementation("com.squareup.sqldelight:android-driver:1.3.0")
+        //implementation("com.squareup.sqldelight:android-driver:1.3.0")
     }
 
     sourceSets["iosMain"].dependencies {
         implementation("com.squareup.sqldelight:native-driver:1.3.0")
-       // implementation("com.squareup.sqldelight:ios-driver:1.2.1")
     }
 
 }

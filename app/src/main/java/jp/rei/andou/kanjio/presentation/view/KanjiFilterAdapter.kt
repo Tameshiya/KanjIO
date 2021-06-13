@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import jp.rei.andou.kanjio.R
-import kotlinx.android.synthetic.main.dialog_list_item.view.*
 
 class KanjiFilterAdapter<T>(
     private val content: List<T>,
@@ -39,5 +38,5 @@ class KanjiFilterAdapter<T>(
 }
 
 class ListDialogViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-    val title: TextView = item.title
+    val title: TextView = item.findViewById(R.id.title)
 }
